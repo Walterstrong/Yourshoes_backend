@@ -1,10 +1,7 @@
 console.log("Web serverni boshlash");
 const express = require("express");
 const app = express();
-
-//MONGODB choqirish
-const db = require("./server.js").db();
-const mongodb = require("mongodb");
+const router = require("./router.js");
 
 //1:Kirish kodlari
 app.use(express.static("public"));
@@ -17,5 +14,5 @@ app.set("views", "views");
 app.set("view engine", "ejs");
 
 //4: Routing code
-
+app.use("/", router);
 module.exports = app;
