@@ -13,7 +13,6 @@ mongoose.connect(
     if (err) console.log("ERROR on connection MongoDB");
     else {
       console.log("Databasega muvaffaqiyatli ulandi");
-      console.log(goose);
       const app = require("./app.js");
       const server = http.createServer(app);
       let PORT = process.env.PORT || 3003;
