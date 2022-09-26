@@ -1,15 +1,18 @@
 const MemberModel = require("../schema/member.model");
 const Definer = require("../lib/ mistake");
 const assert = require("assert");
+
 class Member {
   constructor() {
     this.memberModel = MemberModel;
   }
+
   async signupData(input) {
     try {
       const new_member = new this.memberModel(input);
+      let result;
       try {
-        const result = await new_member.save();
+        result = await new_member.save();
       } catch (mongo_err) {
         console.log(mongo_err);
         throw new Error(Definer.auth_err1);

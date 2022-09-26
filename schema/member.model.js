@@ -10,7 +10,7 @@ const memberSchema = new mongoose.Schema(
     mb_nick: {
       type: String,
       required: true,
-      index: { unique: true, sparse: true },
+      index: { unique: false, sparse: true },
     },
     mb_phone: {
       type: String,
