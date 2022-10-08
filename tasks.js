@@ -41,24 +41,18 @@ console.log("faqatMevalar:", faqatMevalar);
 //4
 // Izoh: Bu yerda Admin objectini hosil qildik, hamda uning ichiga ism va parol qabul qilish funksiya yaratdik,so'ng unga yangi shart belgiladik, belgilangan shartni tekshirish maqsadida 2 ta yangi Adminnning qiymatalarini kiritib funksiyani ishga tushiridik
 console.log("**************to'rtinchi topshiriq***************");
-class Admin {
-  constructor(ism) {
-    this.ism = ism;
-  }
-
+const Admin = {
   adminInput(ism, password) {
     if (ism.length >= 4 && password.length >= 4) {
-      console.log("WELCOME", this.ism);
+      console.log("WELCOME", ism);
     } else
       console.log("Iltimos eng kamida to'rt xonali ism yoki raqam kiriting!");
-  }
-}
+  },
+};
 
-const walter = new Admin("Abdukarim");
-walter.adminInput("Walter", "1234");
+Admin.adminInput("Walter", "1234");
 
-const Lee = new Admin("Ibroximjon");
-Lee.adminInput("Lee", "111");
+Admin.adminInput("Lee", "111");
 
 //5
 // Izoh: Bu yerda dastlab bitta array yasab oldik, hamda ikkita qiymat qabul qiluvchi funksiya yasab oldik. Funksiya qabul qiluvchi birinchi qiymat array sifatida, ikkinchisini string sifatida beldiladik. So'ng funksiya ichiga array ichidagi ikkinchi qiymat bo'lmish string bo'lsa arrray bizga stringdan tashqari boshqa qiymatlarni qaytarishi bo'yicha shart belgiladik.
