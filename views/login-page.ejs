@@ -276,7 +276,44 @@
 </style>
 <body>
   <form class="login_container" action="/resto/login" method="POST">
-    <div class="login_frame"></div>
+    <div class="login_frame">
+      <div class="login_top">
+        <span>Saytga Kirish</span>
+        <div>
+          Bosh sahifaga qaytish <a href="/resto" style="color: #6440fb">Home</a>
+        </div>
+        <p>
+          Ro'yhatdan o'tmaganmisiz?<a
+            href="/resto/signup"
+            style="color: #6440fb"
+            >Ro'yhatdan o'tish</a
+          >
+        </p>
+      </div>
+      <div class="label_input_frame">
+        <div class="login_input_container">
+          <label>Foydalanuvchining ismi:</label>
+          <input
+            type="text"
+            name="mb_nick"
+            placeholder="Foydalanuvchining ismi"
+            value=""
+            required
+          />
+        </div>
+        <div class="login_input_container">
+          <label>Password kiriting</label>
+          <input
+            type="password"
+            name="mb_password"
+            placeholder="Password"
+            value=""
+            required
+          />
+        </div>
+      </div>
+      <button class="login_btn" name="login" type="submit">Kirish</button>
+    </div>
   </form>
 </body>
 <%- include("includes/footer") %>
