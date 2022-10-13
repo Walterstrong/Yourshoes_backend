@@ -1,3 +1,5 @@
+// Bu yerda function ikkita argument qabul qilayabdi, birinchisi password, ikkinchisi telefon nomer, ikkalasi ham string bo'lishi kerak, aks holda error beradi. Agar string bo'lsa passwordni hash qilinyabdi hamda telefon nomer oxirgi 4 ta raqami yashirilgan holda ko'rsatilayabdi
+
 const bcrypt = require("bcrypt");
 const assert = require("assert");
 // const Definer = require("./lib/mistake");

@@ -1,3 +1,5 @@
+//Bu yerda berilgan string qiymat function ichiga pass qilinayabdi. Function shartiga esa, string nechta harf hamda sonlardan tashkil topganligini object sifatida qaytarish logicasi kiritilgan.
+
 let string = "ks2ldjfkldsj3431143";
 function test(string) {
   const raqamlarSoni = string.replace(/[^0-9]/g, "").length;
@@ -7,4 +9,4 @@ function test(string) {
 }
 
 const result = test(string);
-console.log(result);
+console.log("javob:", result);

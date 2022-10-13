@@ -1,3 +1,4 @@
+// Bu holda ikkita array functin ichiga argument sifatida pass qilinayabdi. Function shartiga esa, agar ikkala array qiymatlari to'liq bir-birida mavjuda bo'lsa true aks holda esa false qilib qaytarsin mazmunida logica kiritiliyabdi. Darvoqea, agar ikkala array uzunliklari teng bo'lmagan holatda darhol false qiymati qaytadi.
 let a = [1, 2, 3, 6, 5, 4];
 let b = [1, 2, 3, 4, 5, 6];
 
@@ -10,15 +11,3 @@ const taqqoslash = (a, b) => {
 
 let natija = taqqoslash(a, b);
 console.log("javob:", natija);
-
-const nullValue = null;
-const emptyText = ""; // falsy
-let someNumber;
-
-const valA = nullValue ?? "default for A";
-const valB = emptyText ?? "default for B";
-const valC = someNumber ?? 0;
-
-console.log(valA); // "default for A"
-console.log(valB); // "" (as the empty string is not null or undefined)
-console.log(valC);
