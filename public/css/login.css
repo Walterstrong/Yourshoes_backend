@@ -44,7 +44,7 @@ body {
 
 .login_container .login_frame {
   position: relative;
-  width: 420px;
+  width: 600px;
   height: auto;
   display: flex;
   flex-direction: column;
