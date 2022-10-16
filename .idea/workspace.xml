@@ -40,7 +40,7 @@
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;settings.nodejs&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;configurable.group.editor&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
@@ -58,6 +58,9 @@
       <workItem from="1663763391035" duration="268000" />
       <workItem from="1664271982448" duration="1672000" />
       <workItem from="1664430649380" duration="2627000" />
+      <workItem from="1665927472918" duration="867000" />
+      <workItem from="1665928497173" duration="709000" />
+      <workItem from="1665929417137" duration="329000" />
     </task>
     <task id="LOCAL-00001" summary="installed Php storm">
       <created>1663683844348</created>
