@@ -154,3 +154,5 @@ restaurantController.updateRestaurantByAdmin = async (req, res) => {
     res.json({ state: "fail", message: err.message });
   }
 };
+
+// "fix: complete development of allrestaurants of allrestaurants business logic"
