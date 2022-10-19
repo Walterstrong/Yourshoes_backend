@@ -44,9 +44,9 @@
               </td>
               <td style="width: 13%">
                 <select class="spec_select_mb_status">
-                  <option value="ONPAUSE" <%= value.mb_status === 'ONPAUSE' ? 'selected' : '' %> >ONPAUSE</option>
-                  <option value="ACTIVE" <%= value.mb_status === 'ACTIVE' ? 'selected' : '' %>>ACTIVE</option>
-                  <option value="DELETED" <%= value.mb_status === 'DELETED' ? 'selected' : '' %>>DELETED</option>
+                  <option value="ONPAUSE" <%= value.mb_status === 'ONPAUSE' ? 'selected' : '' %> >ONPAUSE </option>
+                  <option value="ACTIVE" <%= value.mb_status === 'ACTIVE' ? 'selected' : '' %> >ACTIVE </option>
+                  <option value="DELETED" <%= value.mb_status === 'DELETED' ? 'selected' : '' %> >DELETED </option>
                                   </select>
               </td>
             </tbody>
@@ -56,6 +56,22 @@
       </div>
     </div>
   </div>
+  <script>
+    $(function () {
+      $(".mb_top").on("change", function (e) {
+        const id = e.target.id;
+        const mb_top = e.target.checked ? "Y" : "N";
+
+        axios
+          .post("/resto/all-restaurants/edit", { id: id, mb_top: mb_top })
+          .then((response) => {
+            const result = response.data;
+            if (result.state === "success") alert("successfully updated");
+            else alert(result.message);
+          });
+      });
+    });
+  </script>
 </body>
 
 <%- include("includes/footer") %>
