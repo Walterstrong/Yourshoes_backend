@@ -1,0 +1,58 @@
+<%- include("includes/header") %>
+<link rel="stylesheet" href="/css/menu.css" />
+<body>
+  <div class="main_container">
+    <div class="group_name">
+      <ul class="nav justify-content-center" style="justify-content: center">
+        <li class="nav-item" style="cursor: pointer">
+          <a class="nav-link active" href="/resto">Home</a>
+        </li>
+        <li class="nav-item" style="cursor: pointer">
+          <a class="nav-link" href="/resto/all-restaurants">AllResto</a>
+        </li>
+        <li class="nav-item" style="cursor: pointer">
+          <a class="nav-link" href="/resto/logout">Logout</a>
+        </li>
+      </ul>
+    </div>
+    <div class="restaurant_menu_frame">
+      <div class="restaurant_container">
+        <div class="resto_table">
+          <span class="new_dish_txt">Barcha Oshhonalar Ro'yhati</span>
+
+          <table class="table table-hover table-sm">
+            <thead class="thead-light">
+              <tr class="thead-light">
+                <th scope="col">T/r</th>
+                <th scope="col">Oshhona nomi</th>
+                <th scope="col">Oshhona telefon raqami</th>
+                <th scope="col">Oshhona TOP</th>
+                <th scope="col">Oshhona Holati</th>
+              </tr>
+            </thead>
+            <tbody style="background: white">
+              <td>1</td>
+              <td>Chinoz</td>
+              <td>998999999999</td>
+              <td style="width: 13%">
+                <label class="switch">
+                  <input type="checkbox" class="mb_top" />
+                  <span class="slider around"></span>
+                </label>
+              </td>
+              <td style="width: 13%">
+                <select class="spec_select_mb_status">
+                  <option value="ONPAUSE">ONPAUSE</option>
+                  <option value="ACTIVE">ACTIVE</option>
+                  <option value="DELETED">DELETED</option>
+                </select>
+              </td>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+<%- include("includes/footer") %>
