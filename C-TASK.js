@@ -1,20 +1,25 @@
-//
-const qiymat = "abcdef";
-const qiymat_2 = "defghijkl";
+class Hisoblash {
+  constructor(one, two) {
+    this.one = one;
+    this.two = two;
+  }
 
-function findSimilarLetters(qiymat, qiymat_2) {
-  const arr_1 = qiymat.split("");
-  const arr_2 = qiymat_2.split("");
+  kopaytirish(one, two) {
+    return one * two;
+  }
 
-  const natija = arr_1.filter((ele) => {
-    if (arr_2.includes(ele)) {
-      return true;
-    }
-  });
-
-  return natija;
+  qoshish(one, two) {
+    return one + two;
+  }
+  kvadratYigindisi(one, two) {
+    return one ** 2 + two ** 2;
+  }
 }
+const hisob = new Hisoblash();
+const result1 = hisob.kopaytirish(3, 4);
+const natija = hisob.qoshish(3, 4);
+const javob = hisob.kvadratYigindisi(3, 4);
 
-const result = findSimilarLetters(qiymat, qiymat_2);
-
-console.log(result);
+console.log(result1);
+console.log(natija);
+console.log(javob);
