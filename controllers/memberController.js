@@ -84,6 +84,32 @@ memberController.checkMyAuthentication = (req, res) => {
 };
 
 memberController.logout = (req, res) => {
-  console.log("GET cont.home");
-  res.send("you are at logout");
+  console.log("POST:cont/logout");
+  res.cookie("access_token", null, { maxAge: 0, httpOnly: true });
+  res.json({ state: "succeed", data: "logout successfully" });
+};
+
+memberController.getChosenMember = async (req, res) => {
+  try {
+    console.log("POST:cont/ChosenMember");
+    const id = req.params.id;
+
+    const member = new Member();
+    const result = await member.getChosenMemberData(req.member, id);
+    res.json({ state: "succeed", data: result });
+  } catch (err) {
+    console.log(`ERROR, cont/ChosenMember, ${err.message}`);
+    res.json({ state: "fail", message: err.message });
+  }
+};
+
+memberController.retrieveAuthMember = (req, res, next) => {
+  try {
+    const token = req.cookies["access_token"];
+    req.member = token ? jwt.verify(token, process.env.SECRET_TOKEN) : null;
+    next();
+  } catch (err) {
+    console.log(`ERROR, cont/retrieveAuthMember, ${err.message}`);
+    next();
+  }
 };

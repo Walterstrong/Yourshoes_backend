@@ -17,6 +17,11 @@ router.get("/menu", (req, res) => {
   res.send("menu sahifasidasiz");
 });
 
+router.get(
+  "/member/:id",
+  memberController.retrieveAuthMember,
+  memberController.getChosenMember
+);
 // boshqa routerlar
 router.get("/community", (req, res) => {
   res.send("jamiyat sahifasidasiz");
