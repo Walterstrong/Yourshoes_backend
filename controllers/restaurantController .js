@@ -15,18 +15,6 @@ restaurantController.home = (req, res) => {
   }
 };
 
-restaurantController.getMyRestaurantProducts = async (req, res) => {
-  try {
-    console.log("GET: cont/getMyRestaurantData");
-    const product = new Product();
-    const data = await product.getAllProductsDataResto(res.locals.member);
-    res.render("restaurant-menu", { restaurant_data: data });
-  } catch (err) {
-    console.log(`ERROR, cont/getMyRestaurantData, ${err.message}`);
-    res.redirect("/resto");
-  }
-};
-
 restaurantController.getSignupMyRestaurant = async (req, res) => {
   try {
     console.log("GET: cont/getSignupMyRestaurant");
@@ -118,14 +106,15 @@ restaurantController.checkSessions = (req, res) => {
   }
 };
 
-restaurantController.validateAdmin = (req, res, next) => {
-  if (req.session?.member?.mb_type === "ADMIN") {
-    req.member = req.session.member;
-    next();
-  } else {
-    const html = `<script>alert("Admin page: Permission denied");
-  window.location.replace("/resto")</script>`;
-    res.end(html);
+restaurantController.getMyRestaurantProducts = async (req, res) => {
+  try {
+    console.log("GET: cont/getMyRestaurantData");
+    const product = new Product();
+    const data = await product.getAllProductsDataResto(res.locals.member);
+    res.render("restaurant-menu", { restaurant_data: data });
+  } catch (err) {
+    console.log(`ERROR, cont/getMyRestaurantData, ${err.message}`);
+    res.redirect("/resto");
   }
 };
 
@@ -152,6 +141,17 @@ restaurantController.updateRestaurantByAdmin = async (req, res) => {
   } catch (err) {
     console.log(`ERROR, cont/updateRestaurantByAdmin, ${err.message}`);
     res.json({ state: "fail", message: err.message });
+  }
+};
+
+restaurantController.validateAdmin = (req, res, next) => {
+  if (req.session?.member?.mb_type === "ADMIN") {
+    req.member = req.session.member;
+    next();
+  } else {
+    const html = `<script>alert("Admin page: Permission denied");
+  window.location.replace("/resto")</script>`;
+    res.end(html);
   }
 };
 
