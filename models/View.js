@@ -28,6 +28,20 @@ class View {
     }
   }
 
+  async checkViewExistence(view_ref_id) {
+    try {
+      const view = await this.viewModel
+        .findOne({
+          mb_id: this.mb_id,
+          view_ref_id: view_ref_id,
+        })
+        .exec();
+      return view ? true : false;
+    } catch (err) {
+      throw err;
+    }
+  }
+
   async insertMemberView(view_ref_id, group_type) {
     try {
       const new_view = new this.viewModel({
@@ -63,20 +77,6 @@ class View {
           break;
       }
       return true;
-    } catch (err) {
-      throw err;
-    }
-  }
-
-  async checkViewExistence(view_ref_id) {
-    try {
-      const view = await this.viewModel
-        .findOne({
-          mb_id: this.mb_id,
-          view_ref_id: view_ref_id,
-        })
-        .exec();
-      return view ? true : false;
     } catch (err) {
       throw err;
     }
