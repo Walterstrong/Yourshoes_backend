@@ -40,4 +40,10 @@ router.get(
   restaurantController.getRestaurants
 );
 
+router.get(
+  "/restaurants/:id",
+  memberController.retrieveAuthMember,
+  restaurantController.getChosenRestaurant
+);
+
 module.exports = router;
