@@ -12,8 +12,9 @@ restaurantController.getRestaurants = async (req, res) => {
     const data = req.query;
     console.log("query data:", data);
     const restaurant = new Restaurant();
-    const result = await restaurant.getAllRestaurantsData(req.member, data);
+    const result = await restaurant.getRestaurantsData(req.member, data);
     res.json({ state: "success", data: result });
+    // console.log("result:", result);
   } catch (err) {
     console.log(`ERROR, cont/getRestaurants, ${err.message}`);
   }
