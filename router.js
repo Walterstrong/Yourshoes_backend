@@ -35,21 +35,29 @@ router.get(
   productController.getChosenProduct
 );
 
+// Restaurant related routers
 router.get(
   "/restaurants",
   memberController.retrieveAuthMember,
   restaurantController.getRestaurants
 );
-
 router.get(
   "/restaurants/:id",
   memberController.retrieveAuthMember,
   restaurantController.getChosenRestaurant
 );
+
+// Order related routers
 router.post(
   "/orders/create",
   memberController.retrieveAuthMember,
   orderController.createOrder
+);
+
+router.get(
+  "/orders",
+  memberController.retrieveAuthMember,
+  orderController.getMyOrders
 );
 
 module.exports = router;

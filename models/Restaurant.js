@@ -14,9 +14,8 @@ class Restaurant {
       const auth_mb_id = shapeIntoMongooseObjectId(member?._id);
       let match = { mb_type: "RESTAURANT", mb_status: "ACTIVE" };
       let aggregationQuery = [];
-      data.limit = data["limit"] * 1;
+      data.limit = data["limit"] * 1; //stringdan songa o'tkazilayabdi
       data.page = data["page"] * 1;
-      console.log("data", data);
 
       switch (data.order) {
         case "top":
