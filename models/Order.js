@@ -2,7 +2,6 @@ const OrderModel = require("../schema/order.model");
 const OrderItemModel = require("../schema/order_item.model");
 const Definer = require("../lib/ mistake");
 const assert = require("assert");
-const bcrypt = require("bcryptjs");
 
 const { shapeIntoMongooseObjectId } = require("../lib/config");
 
