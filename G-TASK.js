@@ -1,5 +1,5 @@
-var Integars = 1248151;
-var temp = {};
+let Integars = 1248151;
+let temp = {};
 
 function findMostRepeated(Integars) {
   const arr = Array.from(String(Integars), Number);
