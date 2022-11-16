@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node task_1js",
-    "dev": "nodemon task_1.js",
+    "dev": "nodemon G-TASK.js",
     "train": "nodemon C-TASK.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
