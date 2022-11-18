@@ -28,6 +28,38 @@ class Community {
       throw new Error(Definer.auth_err1);
     }
   }
+
+  async getMemberArticlesData(member, mb_id, inquery) {
+    try {
+      const auth_mb_id = shapeIntoMongooseObjectId(member?._id);
+      mb_id = shapeIntoMongooseObjectId(member._id);
+      const page = inquery["page"] ? inquery["page"] * 1 : 1;
+      const limit = inquery["limit"] ? inquery["limit"] * 1 : 5;
+
+      const result = await this.boArticleModel
+        .aggregate([
+          { $match: { mb_id: mb_id, art_status: "active" } },
+          { $sort: { createdAt: -1 } },
+          { $skip: (page - 1) * limit },
+          { $limit: limit },
+          {
+            $lookup: {
+              from: "members",
+              localField: "mb_id",
+              foreignField: "_id",
+              as: "member_data",
+            },
+          },
+          { $unwind: "$member_data" },
+        ])
+        .exec();
+      assert.ok(result, Definer.article_err2);
+
+      return result;
+    } catch (err) {
+      throw err;
+    }
+  }
 }
 
 module.exports = Community;
