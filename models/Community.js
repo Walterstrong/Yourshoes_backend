@@ -96,7 +96,7 @@ class Community {
           { $unwind: "$member_data" },
         ])
         .exec();
-      console.log("result::::", result);
+
       assert.ok(result, Definer.article_err3);
 
       return result;
