@@ -7,6 +7,7 @@ const Like = require("../models/Like");
 const {
   shapeIntoMongooseObjectId,
   look_up_member_following,
+  look_up_member_liked,
 } = require("../lib/config");
 const View = require("../models/View");
 
@@ -69,8 +70,8 @@ class Member {
       ];
 
       if (member) {
-        // condition if not seen before
         await this.viewChosenItemByMember(member, id, "member");
+        aggregateQuery.push(look_up_member_liked(auth_mb_id));
         aggregateQuery.push(look_up_member_following(auth_mb_id, "members"));
       }
 
