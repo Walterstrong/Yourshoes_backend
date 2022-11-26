@@ -16,6 +16,8 @@ class Member {
     this.memberModel = MemberModel;
   }
 
+  ///
+
   async signupData(input) {
     try {
       const salt = await bcrypt.genSalt();
@@ -30,16 +32,20 @@ class Member {
       }
 
       result.mb_password = "";
+      // yuqoridagi amal nimani anglatadi?
       return result;
     } catch (err) {
       throw err;
     }
   }
 
+  ///
+
   async loginData(input) {
     try {
       const member = await this.memberModel
         .findOne({ mb_nick: input.mb_nick }, { mb_nick: 1, mb_password: 1 })
+        //bu yerda 1 raqami nima uchun turibdi?
         .exec();
       assert.ok(member, Definer.auth_err3);
 
@@ -47,17 +53,25 @@ class Member {
         input.mb_password,
         member.mb_password
       );
+      // nima uchun bu yerda isMatch ichida bcryptdan foydalanilgan, hamda isMatch qanday javob qaytaradi?
       assert.ok(isMatch, Definer.auth_err4);
 
-      return await this.memberModel
+      const result = await this.memberModel
         .findOne({
           mb_nick: input.mb_nick,
         })
         .exec();
+      // console.log("result", result);
+
+      //nima uchun password qaytmayabdi?
+      //javob: schema modulni ichidagi mb_password select:false bo'lgani uchun
+      return result;
     } catch (err) {
       throw err;
     }
   }
+
+  ///
 
   async getChosenMemberData(member, id) {
     try {
@@ -85,6 +99,8 @@ class Member {
     }
   }
 
+  ///
+
   async viewChosenItemByMember(member, view_ref_id, group_type) {
     try {
       view_ref_id = shapeIntoMongooseObjectId(view_ref_id);
@@ -110,6 +126,8 @@ class Member {
       throw err;
     }
   }
+
+  ///
 
   async likeChosenItemByMember(member, like_ref_id, group_type) {
     try {

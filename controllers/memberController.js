@@ -5,16 +5,17 @@ const Definer = require("../lib/ mistake");
 
 let memberController = module.exports;
 
+//
+
 memberController.signup = async (req, res) => {
   try {
     console.log("POST:cont/signup");
     const data = req.body;
-    console.log("body:", data);
+
     const member = new Member();
     const new_member = await member.signupData(data);
-    console.log(new_member);
+
     const token = memberController.createToken(new_member);
-    console.log(token);
 
     res.cookie("access_token", token, {
       maxAge: 6 * 3600 * 1000,
@@ -26,6 +27,8 @@ memberController.signup = async (req, res) => {
     res.json({ state: "fail", message: err.message });
   }
 };
+
+//
 
 memberController.login = async (req, res) => {
   try {
@@ -48,6 +51,8 @@ memberController.login = async (req, res) => {
   }
 };
 
+//
+
 memberController.createToken = (result) => {
   try {
     const upload_data = {
@@ -67,6 +72,8 @@ memberController.createToken = (result) => {
   }
 };
 
+//
+
 memberController.checkMyAuthentication = (req, res) => {
   try {
     console.log("POST:cont/checkMyAuthentication");
@@ -82,11 +89,15 @@ memberController.checkMyAuthentication = (req, res) => {
   }
 };
 
+//
+
 memberController.logout = (req, res) => {
   console.log("POST:cont/logout");
   res.cookie("access_token", null, { maxAge: 0, httpOnly: true });
   res.json({ state: "success", data: "logout successfully" });
 };
+
+//
 
 memberController.getChosenMember = async (req, res) => {
   try {
@@ -102,6 +113,8 @@ memberController.getChosenMember = async (req, res) => {
   }
 };
 
+//
+
 memberController.retrieveAuthMember = (req, res, next) => {
   try {
     const token = req.cookies["access_token"];
@@ -112,6 +125,8 @@ memberController.retrieveAuthMember = (req, res, next) => {
     next();
   }
 };
+
+//
 
 memberController.likeMemberChosen = async (req, res) => {
   try {
@@ -129,5 +144,6 @@ memberController.likeMemberChosen = async (req, res) => {
     res.json({ state: "success", data: result });
   } catch (err) {
     console.log(`ERROR, cont/likeMemberChosen, ${err.message}`);
+    res.json({ state: "fail", message: err.message });
   }
 };

@@ -8,7 +8,7 @@ orderController.createOrder = async (req, res) => {
   try {
     console.log("POST: cont/createOrder");
     assert.ok(req.member, Definer.auth_err5);
-    console.log(req.member, req.body);
+    
     const order = new Order();
     const result = await order.createOrderData(req.member, req.body);
 

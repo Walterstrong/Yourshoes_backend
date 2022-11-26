@@ -10,7 +10,7 @@ restaurantController.getRestaurants = async (req, res) => {
   try {
     console.log("GET: cont/getRestaurants");
     const data = req.query;
-    console.log("query data:", data);
+
     const restaurant = new Restaurant();
     const result = await restaurant.getRestaurantsData(req.member, data);
     res.json({ state: "success", data: result });
@@ -69,6 +69,7 @@ restaurantController.signupProcess = async (req, res) => {
     new_member.mb_image = req.file.path;
 
     const member = new Member();
+
     const result = await member.signupData(new_member);
     assert(req.file, Definer.general_err1);
 
@@ -96,13 +97,14 @@ restaurantController.loginProcess = async (req, res) => {
     const data = req.body;
     const member = new Member();
     const result = await member.loginData(data);
-
+    // console.log("result:", result);
     req.session.member = result;
     req.session.save(function () {
       result.mb_type === "ADMIN"
         ? res.redirect("/resto/all-restaurants")
         : res.redirect("/resto/products/menu");
     });
+    // bu yerdan faqatgina adminlargina kirsin degan mantiqni yaratishimiz mumkin
   } catch (err) {
     console.log(`ERROR, cont/loginProcess, ${err.message}`);
     res.json({ state: "fail", message: err.message });
@@ -144,7 +146,7 @@ restaurantController.getMyRestaurantProducts = async (req, res) => {
   try {
     console.log("GET: cont/getMyRestaurantData");
     const product = new Product();
-    const data = await product.getAllProductsDataResto(res.locals.member);
+    const data = await product.getMyProductsDataResto(res.locals.member);
     res.render("restaurant-menu", { restaurant_data: data });
   } catch (err) {
     console.log(`ERROR, cont/getMyRestaurantData, ${err.message}`);

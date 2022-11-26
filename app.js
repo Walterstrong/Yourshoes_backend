@@ -1,4 +1,3 @@
-console.log("Web serverni boshlash");
 const express = require("express");
 const app = express();
 const router = require("./router.js");
@@ -34,6 +33,7 @@ app.use(
 app.use(function (req, res, next) {
   res.locals.member = req.session.member;
   next();
+  //console.log("req.locals.member=req.session.member");
 });
 
 //3:Views code

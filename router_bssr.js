@@ -4,6 +4,7 @@ const restaurantController = require("./controllers/restaurantController ");
 const productController = require("./controllers/productController.js");
 const uploader_product = require("./utils/upload-multer")("products");
 const uploader_members = require("./utils/upload-multer")("members");
+
 /*******************************
  *                             *
  *          BSSR EJS           *
@@ -23,6 +24,7 @@ router_bssr.get("/login", restaurantController.getLoginMyRestaurant);
 router_bssr.post("/login", restaurantController.loginProcess);
 
 router_bssr.get("/logout", restaurantController.logout);
+// bu mantiq faqatgina postman uchun kerak`
 router_bssr.get("/check-me", restaurantController.checkSessions);
 
 router_bssr.get("/products/menu", restaurantController.getMyRestaurantProducts);
@@ -30,6 +32,8 @@ router_bssr.get("/products/menu", restaurantController.getMyRestaurantProducts);
 router_bssr.post(
   "/products/create",
   restaurantController.validateAuthRestaurant,
+  //bu nima uchun kerak?
+  // bu faqatgina postmanda ishlashimiz uchun kerak, chunki
   uploader_product.array("product_images", 5),
   productController.addNewProduct
 );
