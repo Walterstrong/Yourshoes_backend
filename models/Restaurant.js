@@ -15,6 +15,7 @@ class Restaurant {
   async getRestaurantsData(member, data) {
     try {
       const auth_mb_id = shapeIntoMongooseObjectId(member?._id);
+      console.log("auth_mb_id", auth_mb_id);
       let match = { mb_type: "RESTAURANT", mb_status: "ACTIVE" };
       let aggregationQuery = [];
       data.limit = data["limit"] * 1; //stringdan songa o'tkazilayabdi
@@ -39,7 +40,10 @@ class Restaurant {
 
       aggregationQuery.push({ $skip: (data.page - 1) * data.limit });
       aggregationQuery.push({ $limit: data.limit });
-      aggregationQuery.push(look_up_member_liked(auth_mb_id));
+
+      if (auth_mb_id) {
+        aggregationQuery.push(look_up_member_liked(auth_mb_id));
+      }
 
       const result = await this.memberModel.aggregate(aggregationQuery).exec();
       assert.ok(result, Definer.general_err2);
