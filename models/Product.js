@@ -39,7 +39,7 @@ class Product {
         .exec();
 
       assert.ok(result, Definer.general_err1);
-      console.log("result", result);
+      // console.log("result", result);
       return result;
     } catch (err) {
       throw err;
@@ -63,7 +63,7 @@ class Product {
         ])
         .exec();
       assert.ok(result, Definer.general_err1);
-      console.log("result", result);
+      // console.log("result", result);
       return result[0];
     } catch (err) {
       throw err;

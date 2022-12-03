@@ -4,6 +4,8 @@ const router = require("./router.js");
 const router__bssr = require("./router_bssr.js");
 const cookieParser = require("cookie-parser");
 
+const cors = require("cors");
+
 let session = require("express-session");
 const MongoDBStore = require("connect-mongodb-session")(session);
 const store = new MongoDBStore({
@@ -13,9 +15,14 @@ const store = new MongoDBStore({
 
 //1:Kirish kodlari
 app.use(express.static("public"));
+
+app.use("/uploads", express.static(__dirname + "/uploads"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(cors({ credentials: true, origin: true }));
+
+app.use(router);
 
 //2: Session
 app.use(
