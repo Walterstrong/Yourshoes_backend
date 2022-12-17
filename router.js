@@ -7,7 +7,7 @@ const orderController = require("./controllers/orderController.js");
 const communityController = require("./controllers/communityController.js");
 const followController = require("./controllers/followController.js");
 const uploader_community = require("./utils/upload-multer")("community");
-const uploader_members = require("./utils/upload-multer")("members");
+const uploader_member = require("./utils/upload-multer")("members");
 
 /*******************************
  *                             *
@@ -24,6 +24,18 @@ router.get(
   "/member/:id",
   memberController.retrieveAuthMember,
   memberController.getChosenMember
+);
+router.post(
+  "/member-liken",
+  memberController.retrieveAuthMember,
+  memberController.likeMemberChosen
+);
+
+router.post(
+  "/member/update",
+  memberController.retrieveAuthMember,
+  uploader_member.single("mb_image"),
+  memberController.updateMember
 );
 
 // Product related routers
@@ -124,9 +136,4 @@ router.get(
   followController.getMemberFollowers
 );
 
-router.post(
-  "/member-liken",
-  memberController.retrieveAuthMember,
-  memberController.likeMemberChosen
-);
 module.exports = router;

@@ -8,6 +8,7 @@ const {
   shapeIntoMongooseObjectId,
   look_up_member_following,
   look_up_member_liked,
+  look_up_member_viewed,
 } = require("../lib/config");
 const View = require("../models/View");
 
@@ -86,6 +87,7 @@ class Member {
       if (member) {
         await this.viewChosenItemByMember(member, id, "member");
         aggregateQuery.push(look_up_member_liked(auth_mb_id));
+        aggregateQuery.push(look_up_member_viewed(auth_mb_id));
         aggregateQuery.push(look_up_member_following(auth_mb_id, "members"));
       }
 
@@ -151,6 +153,35 @@ class Member {
         like_ref_id: data.like_ref_id,
         like_status: doesExist ? 0 : 1,
       };
+      return result;
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async updateMemberData(id, data, image) {
+    try {
+      const mb_id = shapeIntoMongooseObjectId(id);
+
+      let params = {
+        mb_nick: data.mb_nick,
+        mb_phone: data.mb_phone,
+        mb_address: data.mb_address,
+        mb_description: data.mb_description,
+        mb_image: image ? image.path : null,
+      };
+
+      for (let prop in params) if (!params[prop]) delete params[prop];
+      const result = await this.memberModel
+        .findOneAndUpdate({ _id: mb_id }, params, {
+          runValidators: true,
+          lean: true,
+          returnDocument: "after",
+        })
+        .exec();
+
+      assert.ok(result, Definer.general_err1);
+
       return result;
     } catch (err) {
       throw err;

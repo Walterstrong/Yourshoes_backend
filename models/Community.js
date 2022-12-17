@@ -5,6 +5,7 @@ const {
   shapeIntoMongooseObjectId,
   board_id_enum_list,
   look_up_member_liked,
+  look_up_member_viewed,
 } = require("../lib/config");
 const Member = require("../models/Member");
 
@@ -57,6 +58,7 @@ class Community {
           },
           { $unwind: "$member_data" },
           look_up_member_liked(auth_mb_id),
+          look_up_member_viewed(auth_mb_id),
         ])
         .exec();
       assert.ok(result, Definer.article_err2);
@@ -97,6 +99,7 @@ class Community {
           },
           { $unwind: "$member_data" },
           look_up_member_liked(auth_mb_id),
+          look_up_member_viewed(auth_mb_id),
         ])
         .exec();
 

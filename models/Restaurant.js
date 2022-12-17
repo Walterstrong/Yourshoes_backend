@@ -5,6 +5,7 @@ const Member = require("../models/Member");
 const {
   shapeIntoMongooseObjectId,
   look_up_member_liked,
+  look_up_member_viewed,
 } = require("../lib/config");
 
 class Restaurant {
@@ -43,6 +44,7 @@ class Restaurant {
 
       if (auth_mb_id) {
         aggregationQuery.push(look_up_member_liked(auth_mb_id));
+        aggregationQuery.push(look_up_member_viewed(auth_mb_id));
       }
 
       const result = await this.memberModel.aggregate(aggregationQuery).exec();
