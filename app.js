@@ -3,6 +3,7 @@ const app = express();
 const router = require("./router.js");
 const router__bssr = require("./router_bssr.js");
 const cookieParser = require("cookie-parser");
+const http = require("http");
 
 const cors = require("cors");
 
@@ -51,3 +52,36 @@ app.set("view engine", "ejs");
 app.use("/", router);
 app.use("/resto", router__bssr);
 module.exports = app;
+
+const server = http.createServer(app);
+//** SOCKET.IO BACKEND SERVER */
+const io = require("socket.io")(server, {
+  serveClient: false,
+  origins: "*:*",
+  transport: ["websocket", "xhr-polling"],
+});
+
+let online_users = 0;
+io.on("connection", function (socket) {
+  online_users++;
+  console.log("New user, total:", online_users);
+  socket.emit("greetMsg", { text: "welcome" });
+  io.emit("infoMsg", { total: online_users });
+
+  socket.on("disconnect", function () {
+    online_users--;
+    socket.broadcast.emit("infoMsg", { total: online_users });
+    console.log("client disconnected, total:", online_users);
+  });
+
+  socket.on("createMsg", function (data) {
+    console.log("createMsg", data);
+    io.emit("newMsg", data);
+  });
+});
+
+//socket.emit()
+//socket.broadcast.emit()
+//io.emit()
+
+module.exports = server;
