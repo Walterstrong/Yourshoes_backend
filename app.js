@@ -80,8 +80,8 @@ io.on("connection", function (socket) {
   });
 });
 
-//socket.emit()
-//socket.broadcast.emit()
-//io.emit()
+//socket.emit() || => yangi ulangan odamga yoziladigan xabar, faqatgina ulangan odamgagina xabar yuborish
+//socket.broadcast.emit() || => ulangan odamdan tashqari bo'lgan userlarga malumot yuborish
+//io.emit() || => barcha userlarga xabar yuborish
 
 module.exports = server;

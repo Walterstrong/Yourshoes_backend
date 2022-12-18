@@ -80,7 +80,7 @@ class Community {
       inquery.page *= 1;
 
       const sort = inquery.order
-        ? { [`${inquery.order}`]: 1 }
+        ? { [`${inquery.order}`]: -1 }
         : { createdAt: -1 };
 
       const result = await this.boArticleModel
