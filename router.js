@@ -57,6 +57,7 @@ router.get(
   memberController.retrieveAuthMember,
   restaurantController.getRestaurants
 );
+
 router.get(
   "/restaurants/:id",
   memberController.retrieveAuthMember,
@@ -112,6 +113,12 @@ router.get(
   "/community/single-article/:art_id",
   memberController.retrieveAuthMember,
   communityController.getChosenArticle
+);
+
+router.get(
+  "/community/article/delete/:art_id",
+  memberController.retrieveAuthMember,
+  communityController.getArticleDelete
 );
 
 // Following related routers

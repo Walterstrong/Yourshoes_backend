@@ -127,6 +127,21 @@ class Community {
       throw err;
     }
   }
+
+  async getArticleDeleteData(member, art_id) {
+    try {
+      art_id = shapeIntoMongooseObjectId(art_id);
+
+      const result = await this.boArticleModel
+        .findByIdAndDelete({ _id: art_id })
+        .exec();
+
+      assert.ok(result, Definer.general_err1);
+      return true;
+    } catch (err) {
+      throw err;
+    }
+  }
 }
 
 module.exports = Community;

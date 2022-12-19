@@ -80,3 +80,17 @@ communityController.getChosenArticle = async (req, res) => {
     res.json({ state: "fail", message: err.message });
   }
 };
+
+communityController.getArticleDelete = async (req, res) => {
+  try {
+    console.log("GET: cont/getArticleDelete");
+    const art_id = req.params.art_id;
+    const community = new Community();
+    const result = await community.getArticleDeleteData(req.member, art_id);
+
+    res.json({ state: "success", data: "deleted" });
+  } catch (err) {
+    console.log(`ERROR, cont/getArticleDelete, ${err.message}`);
+    res.json({ state: "fail", message: err.message });
+  }
+};
