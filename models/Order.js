@@ -101,6 +101,19 @@ class Order {
               as: "order_items",
             },
           },
+          // {
+          //   $unwind: "$order_items",
+          // },
+          // {
+          //   $group: {
+          //     _id: {
+          //       order_id: "$order_items.order_id",
+          //     },
+          //     avgRating: {
+          //       $avg: "$order_items.item_price",
+          //     },
+          //   },
+          // },
           {
             $lookup: {
               from: "products",

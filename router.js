@@ -5,6 +5,7 @@ const productController = require("./controllers/productController");
 const restaurantController = require("./controllers/restaurantController ");
 const orderController = require("./controllers/orderController.js");
 const communityController = require("./controllers/communityController.js");
+const commentController = require("./controllers/commentController.js");
 const followController = require("./controllers/followController.js");
 const uploader_community = require("./utils/upload-multer")("community");
 const uploader_member = require("./utils/upload-multer")("members");
@@ -141,6 +142,26 @@ router.get(
   "/follow/followers",
   memberController.retrieveAuthMember,
   followController.getMemberFollowers
+);
+
+// Comment related routers
+
+router.post(
+  "/comment/create",
+  memberController.retrieveAuthMember,
+  commentController.createComment
+);
+
+router.get(
+  "/comment/target",
+  memberController.retrieveAuthMember,
+  commentController.getComments
+);
+
+router.get(
+  "/comment/target/delete/:comment_id",
+  memberController.retrieveAuthMember,
+  commentController.getCommentDelete
 );
 
 module.exports = router;

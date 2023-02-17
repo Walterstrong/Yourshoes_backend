@@ -2,6 +2,8 @@ const LikeModel = require("../schema/like.model");
 const MemberModel = require("../schema/member.model");
 const ProductModel = require("../schema/product.model");
 const BoArticleModel = require("../schema/bo_article.model");
+const CommentModel = require("../schema/comment.model");
+
 const Definer = require("../lib/ mistake");
 const assert = require("assert");
 
@@ -13,6 +15,7 @@ class Like {
     this.memberModel = MemberModel;
     this.productModel = ProductModel;
     this.boArticleModel = BoArticleModel;
+    this.commentModel = CommentModel;
     this.mb_id = mb_id;
   }
 
@@ -25,6 +28,14 @@ class Like {
             .findOne({
               _id: id,
               mb_status: "ACTIVE",
+            })
+            .exec();
+          break;
+        case "comment":
+          result = await this.commentModel
+            .findOne({
+              _id: id,
+              comment_status: "active",
             })
             .exec();
           break;
@@ -46,7 +57,6 @@ class Like {
             .exec();
           break;
       }
-
       return !!result;
     } catch (err) {
       throw err;
@@ -61,6 +71,7 @@ class Like {
           like_ref_id: like_ref_id,
         })
         .exec();
+
       return like ? true : false;
     } catch (err) {
       throw err;
@@ -89,6 +100,7 @@ class Like {
         like_ref_id: like_ref_id,
         like_group: group_type,
       });
+
       const result = await new_like.save();
 
       //target items view sonini bittaga oshiramiz
@@ -111,6 +123,18 @@ class Like {
               },
               {
                 $inc: { mb_likes: modifier },
+              }
+            )
+            .exec();
+          break;
+        case "comment":
+          await this.commentModel
+            .findByIdAndUpdate(
+              {
+                _id: like_ref_id,
+              },
+              {
+                $inc: { comment_likes: modifier },
               }
             )
             .exec();

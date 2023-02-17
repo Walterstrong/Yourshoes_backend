@@ -37,11 +37,32 @@ class Product {
           { $limit: data.limit * 1 },
           look_up_member_liked(auth_mb_id),
           look_up_member_viewed(auth_mb_id),
+          // {
+          //   $lookup: {
+          //     from: "comments",
+          //     localField: "_id",
+          //     foreignField: "comment_ref_product_id",
+          //     as: "ratings",
+          //   },
+          // },
+          // {
+          //   $unwind: "$ratings",
+          // },
+          // {
+          //   $group: {
+          //     _id: {
+          //       product_id: "$ratings.comment_ref_product_id",
+          //     },
+          //     avgRating: {
+          //       $avg: "$ratings.product_rating",
+          //     },
+          //   },
+          // },
         ])
         .exec();
-
+      console.log("result:", result);
       assert.ok(result, Definer.general_err1);
-      // console.log("result", result);
+
       return result;
     } catch (err) {
       throw err;
