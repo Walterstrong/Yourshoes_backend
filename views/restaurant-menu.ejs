@@ -19,30 +19,32 @@
       <div class="restaurant_container">
         <div class="dishs_table">
           <span class="new_dish_txt">
-            <%= member.mb_nick.toUpperCase()%>Taomlar Menyusi
+            <%= member.mb_nick.toUpperCase()%> Products lists
           </span>
           <table class="table table-bordered table-hover">
             <thead class="thead-light">
-              <th scope="col">T/r</th>
-              <th scope="col">Taom nomi</th>
-              <th scope="col">Taom turi</th>
-              <th scope="col">Taom Hajmi</th>
-              <th scope="col">Taom Narhi</th>
-              <th scope="col">Taom qoldiq miqdori</th>
-              <th scope="col">Taom holati</th>
+              <th scope="col">N#</th>
+              <th scope="col">Product name</th>
+              <th scope="col">Product size</th>
+              <th scope="col">Product color </th>
+              <th scope="col">Product price </th>
+              <th scope="col">Product type</th>
+              <th scope="col">Product collection</th>
+              <th scope="col">Product stock</th>
+              <th scope="col">Product status</th>
+              
             </thead>
 
             <% restaurant_data.map((value, key)=> { %>
             <tbody style="background: white">
               <td><%= key + 1 %></td>
               <td><%= value.product_name %></td>
-              <td><%= value.product_collection %></td>
-              <td>
-                <%= value.product_collection === "drink" ? value.product_volume
-                : value.product_size %>
-              </td>
+              <td><%= value.product_size %></td>
+              <td><%= value.product_color %></td>
               <td><%= value.product_price %></td>
-              <td><%= value.product_left_cnt%></td>
+              <td><%= value.product_type %></td>
+              <td><%= value.product_collection %></td>
+              <td><%= value.product_left_cnt %></td>
               <td>
                 <select class="spec_select new_product_status" id="<%= value._id %>">
                   <option value="PROCESS" <%= value.product_status === 'PROCESS' ? 'selected' : '' %> >PROCESS</option>
@@ -57,7 +59,7 @@
             class="long_input"
             style="align-items: flex-end; margin-bottom: 25px"
           >
-            <button class="btn btn-primary hiding_btn">Taom Qo'shish</button>
+            <button class="btn btn-primary hiding_btn">Add product</button>
           </div>
         </div>
         <form
@@ -68,16 +70,16 @@
           enctype="multipart/form-data"
         >
           <div class="long_input" style="display: flex; align-items: center">
-            <span class="new_dish_txt">Yangi Taom</span>
+            <span class="new_dish_txt">New Product</span>
           </div>
           <div>
             <div class="long_input">
-              <label>Taom nomi</label>
+              <label>Product name</label>
               <input
                 type="text"
                 name="product_name"
                 class="product_name"
-                placeholder="Taom nomi"
+                placeholder="Product name"
               />
             </div>
             <input
@@ -88,68 +90,82 @@
             />
           </div>
 
-          <div class="half_input_frame">
-            <div class="half_input">
-              <label>Taom narxi</label
+          <div class="half_input_frame" >
+            <div class="half_input" id="product_price">
+              <label>Product price</label
               ><input
                 type="number"
-                placeholder="Taom narxi"
+                placeholder="Product price"
                 name="product_price"
                 class="product_price"
               />
             </div>
-            <div class="half_input">
-              <label>Taom qoldiq miqdori</label
+            <div class="half_input" id="product_left_cnt">
+              <label>Product stock</label
               ><input
                 type="number"
-                placeholder="Taom mavjud miqdori"
+                placeholder="Product stock"
                 name="product_left_cnt"
                 class="product_left_cnt"
               />
             </div>
           </div>
           <div>
-            <div class="half_input_frame">
-              <div class="half_input">
-                <label>Taom nomi</label>
+            <div class="half_input_frame" >
+              <div class="half_input" id="product_collection">
+                <label>Product collection</label>
                 <select name="product_collection" class="product_collection">
-                  <option value="dish" selected>Taom</option>
-                  <option value="salad">Salad</option>
-                  <option value="dessert">Dessert</option>
-                  <option value="drink">Ichimlik</option>
-                  <option value="etc">Boshqa</option>
+                  <option value="formal" selected>Formal</option>
+                  <option value="running" selected>Running</option>
+                  <option value="training" selected>Training</option>
+                  <option value="sports" selected>Sports</option>
+                  
                 </select>
               </div>
               <div class="half_input" id="product_size">
-                <label>Taom Hajmi</label>
+                <label>Product size</label>
                 <select name="product_size" class="product_size">
-                  <option value="small">Kichkina</option>
-                  <option value="normal" selected>O'rtacha</option>
-                  <option value="large">Katta</option>
-                  <option value="set">Set</option>
+                  <option value="all">all</option>
+                  <option value="270" selected>270</option>
+                  <option value="275" selected>275</option>
+                  <option value="280" selected>280</option>
+                  <option value="285" selected>285</option>
+                  
                 </select>
               </div>
-              <div class="half_input" id="product_volume" style="display: none">
-                <label>Ichimlik Hajmi</label>
-                <select name="product_volume" class="product_volume">
-                  <option value="0.5">0.5 litr</option>
-                  <option value="1" selected>1 litr</option>
-                  <option value="1.2">1.2 litr</option>
-                  <option value="1.5">1.5 litr</option>
-                  <option value="2">2 litr</option>
+              
+            </div>
+            <div class="half_input_frame">
+              <div class="half_input" id="product_color">
+                <label>Product color</label>
+                <select name="product_color" class="product_color">
+                  <option value="white" selected>white</option>
+                  <option value="black">black</option>
+                  <option value="red">red</option>
+                  <option value="green">green</option>
+                  <option value="blue">blue</option>
                 </select>
               </div>
+              <div class="half_input" id="product_type">
+                <label>Product type</label>
+                <select name="product_type" class="product_type">
+                  <option value="men">men</option>
+                  <option value="women" selected>women</option>
+                  
+                </select>
+              </div>
+              
             </div>
           </div>
           <div class="long_input">
-            <label>Taom haqida</label>
+            <label>Product description</label>
             <textarea
               name="product_description"
               class="product_description"
             ></textarea>
           </div>
           <div class="img_frame">
-            <label>Taom rasmlari </label>
+            <label>Product pictures </label>
             <div class="media-frame">
               <div class="upload_img_box">
                 <img src="/images/upload.svg" class="1" id="image_section_1" />

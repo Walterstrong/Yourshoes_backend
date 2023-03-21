@@ -3,15 +3,38 @@ const {
   product_collection_enums,
   product_status_enums,
   product_size_enums,
-  product_volume_enums,
+  product_color_enums,
+  product_type_enums,
 } = require("../lib/config");
 const Schema = mongoose.Schema;
 
 const productSchema = new mongoose.Schema(
   {
+    // restaurant_mb_id: {
+    //   type: Schema.Types.ObjectId,
+    //   ref: "Member",
+    //   required: true,
+    // },
+
     product_name: {
       type: String,
       required: true,
+    },
+    product_color: {
+      type: String,
+      required: true,
+      enum: {
+        values: product_color_enums,
+        message: "{VALUE} is not among permitted values",
+      },
+    },
+    product_type: {
+      type: String,
+      required: true,
+      enum: {
+        values: product_type_enums,
+        message: "{VALUE} is not among permitted values",
+      },
     },
     product_collection: {
       type: String,
@@ -32,7 +55,7 @@ const productSchema = new mongoose.Schema(
     },
     product_price: {
       type: Number,
-      required: true,
+      required: false,
     },
     product_discount: {
       type: Number,
@@ -45,27 +68,23 @@ const productSchema = new mongoose.Schema(
     },
     product_size: {
       type: String,
-      default: "normal",
-      required: function () {
-        const sized_list = ["dish", "salad", "dessert"];
-        return sized_list.includes(this.product_collection);
-      },
+      required: true,
       enum: {
         values: product_size_enums,
         message: "{VALUE} is not among permitted values",
       },
     },
-    product_volume: {
-      type: String,
-      default: 1,
-      required: function () {
-        return this.product_collection === "drink";
-      },
-      enum: {
-        values: product_volume_enums,
-        message: "{VALUE} is not among permitted values",
-      },
-    },
+    // product_volume: {
+    //   type: String,
+    //   default: 1,
+    //   required: function () {
+    //     return this.product_collection === "drink";
+    //   },
+    //   enum: {
+    //     values: product_volume_enums,
+    //     message: "{VALUE} is not among permitted values",
+    //   },
+    // },
     product_description: { type: String, required: true },
     product_images: { type: Array, required: false, default: [] },
     product_likes: {
@@ -78,7 +97,7 @@ const productSchema = new mongoose.Schema(
       required: false,
       default: 0,
     },
-    restaurant_mb_id: {
+    brand_mb_id: {
       type: Schema.Types.ObjectId,
       ref: "Member",
       required: false,
@@ -87,7 +106,7 @@ const productSchema = new mongoose.Schema(
   { timestamps: true }
 );
 productSchema.index(
-  { restaurant_mb_id: 1, product_name: 1, product_size: 1 },
+  { brand_mb_id: 1, product_name: 1, product_size: 1 },
   { unique: true }
 );
 

@@ -11,6 +11,7 @@ const orderItemSchema = new mongoose.Schema(
       ref: "Product",
       required: false,
     },
+    product_size: { type: Number, required: true },
   },
   { timestamps: true }
 );

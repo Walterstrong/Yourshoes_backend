@@ -3,6 +3,12 @@ const {
   look_up_member_liked,
   look_up_member_viewed,
 } = require("../lib/config");
+const {
+  product_collection_enums,
+  product_size_enums,
+  product_color_enums,
+  product_type_enums,
+} = require("../lib/config");
 const ProductModel = require("../schema/product.model");
 const assert = require("assert");
 const Definer = require("../lib/ mistake");
@@ -15,13 +21,41 @@ class Product {
   async getAllProductsData(member, data) {
     try {
       const auth_mb_id = shapeIntoMongooseObjectId(member?._id);
-
+      console.log("data:", data);
       let match = { product_status: "PROCESS" };
-      if (data.restaurant_mb_id) {
-        match["restaurant_mb_id"] = shapeIntoMongooseObjectId(
-          data.restaurant_mb_id
-        );
+
+      // if (data.restaurant_mb_id) {
+      //   match["restaurant_mb_id"] = shapeIntoMongooseObjectId(
+      //     data.restaurant_mb_id
+      //   );
+      // }
+
+      //product_collection;
+      if (data.product_collection === "all") {
+        match["product_collection"] = { $in: product_collection_enums };
+      } else {
         match["product_collection"] = data.product_collection;
+      }
+
+      //product_size
+      if (data.product_size === "all") {
+        match["product_size"] = { $in: product_size_enums };
+      } else {
+        match["product_size"] = { $in: product_size_enums };
+      }
+
+      //product_type
+      if (data.product_type === "all") {
+        match["product_type"] = { $in: product_type_enums };
+      } else {
+        match["product_type"] = data.product_type;
+      }
+
+      //product_color
+      if (data.product_color === "all") {
+        match["product_color"] = { $in: product_color_enums };
+      } else {
+        match["product_color"] = data.product_color;
       }
 
       const sort =

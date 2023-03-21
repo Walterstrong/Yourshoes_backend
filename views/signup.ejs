@@ -10,32 +10,32 @@
   >
     <div class="login_frame" style="width: 650px; height: 730px">
       <div class="login_top">
-        <span>Ro'yhatdan o'tish</span>
+        <span>Sign up</span>
         <div>
-          Bosh sahifaga qaytish <a href="/resto" style="color: #6440fb">Home</a>
+          Back to Home Page <a href="/resto" style="color: #6440fb">Home</a>
         </div>
         <p>
-          Ro'yhatdan allaqachon o'tganmisiz?
+          Already signed up?
           <a href="/resto/login" style="color: #6440fb">Login</a>
         </p>
       </div>
       <div class="sign_input_frame">
         <div class="sign_up_frame">
-          <label>Foydalanuvchining ismi</label
+          <label>User name</label
           ><input
             type="text"
             name="mb_nick"
-            placeholder="Foydalanuvchining ismi"
+            placeholder="User name"
             value=""
             required
           />
         </div>
         <div class="sign_up_frame">
-          <label>Telefon raqami</label
+          <label>Phone number</label
           ><input
             type="text"
             name="mb_phone"
-            placeholder="Telefon raqami"
+            placeholder="Phone number"
             value=""
             required
           />
@@ -47,17 +47,17 @@
           ><input
             type="password"
             name="mb_password"
-            placeholder="passwordni kiriting"
+            placeholder="Enter password"
             value=""
             required
           />
         </div>
         <div class="sign_up_frame">
-          <label>Passwordni tasdiqlash</label
+          <label>Password confirmation</label
           ><input
             type="password"
             name="mb_confirm_password"
-            placeholder="passwordni qayta kiriting"
+            placeholder="Password confirmation"
             value=""
             required
           />
@@ -75,10 +75,10 @@
             <div class="filebox bs3-primary preview-image">
               <input
                 class="upload-name"
-                value="Rasmni tanglang"
+                value="Choose picture"
                 disabled="disabled"
               />
-              <label for="input_file">Rasmni Yuklash</label>
+              <label for="input_file">Upload image</label>
               <input
                 type="file"
                 value=""
@@ -89,16 +89,14 @@
               />
             </div>
             <p class="thumbnail_desc">
-              Oshhona rasmingizni bu yerga yuklang. <br />Muhim korsatmalar:
-              .jpg, .jpeg, yoki .png <br />
-              rasmda matn yo'q bo'lishi darkor!
+              Upload your brand picture <br />Please attention:: .jpg, .jpeg,
+              yoki .png <br />
+              in picture please no text!
             </p>
           </div>
         </div>
       </div>
-      <button class="login_btn btn" name="signup" type="submit">
-        Ro'yhatdan o'tish
-      </button>
+      <button class="login_btn btn" name="signup" type="submit">Sign up</button>
     </div>
   </form>
   <script>
@@ -112,7 +110,7 @@
           const validImageTypes = ["image/jpg", "image/jpeg", "image/png"];
           if (!validImageTypes.includes(fileType)) {
             alert(
-              "Iltimos ruxsat etilgan formatdagi rasmlarni yuklang: jpg, jpeg va png"
+              "Please upload images in the allowed format: jpg, jpeg va png"
             );
           } else {
             if (uploading_file) {
@@ -142,15 +140,15 @@
         mb_confirm_password == "" ||
         mb_phone == ""
       ) {
-        alert("Iltimos hamma ma'lumotlarni kiriting");
+        alert("Please type all information!");
         return false;
       } else if (mb_password !== mb_confirm_password) {
-        alert("Iltimos passwordni to'g'ri kiriting");
+        alert("Please enter password  correctly!");
         return false;
       }
 
       if (!restaurant_img) {
-        alert("Iltimos rasmni yuklang!");
+        alert("Please upload a new image");
         return false;
       }
 
