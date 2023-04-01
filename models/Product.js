@@ -2,6 +2,7 @@ const {
   shapeIntoMongooseObjectId,
   look_up_member_liked,
   look_up_member_viewed,
+  look_up_product_price,
 } = require("../lib/config");
 const {
   product_collection_enums,
@@ -24,11 +25,12 @@ class Product {
       console.log("data:", data);
       let match = { product_status: "PROCESS" };
 
-      // if (data.restaurant_mb_id) {
-      //   match["restaurant_mb_id"] = shapeIntoMongooseObjectId(
-      //     data.restaurant_mb_id
-      //   );
-      // }
+      if (data.restaurant_mb_id !== "all") {
+        match["restaurant_mb_id"] = shapeIntoMongooseObjectId(
+          data.restaurant_mb_id
+        );
+      } else {
+      }
 
       //product_collection;
       if (data.product_collection === "all") {
@@ -71,6 +73,8 @@ class Product {
           { $limit: data.limit * 1 },
           look_up_member_liked(auth_mb_id),
           look_up_member_viewed(auth_mb_id),
+          // look_up_product_price(auth_mb_id),
+          // look_up_product_price(auth_mb_id),
           // {
           //   $lookup: {
           //     from: "comments",
@@ -84,14 +88,13 @@ class Product {
           // },
           // {
           //   $group: {
-          //     _id: {
-          //       product_id: "$ratings.comment_ref_product_id",
-          //     },
+          //     _id: "$ratings.comment_ref_product_id",
           //     avgRating: {
           //       $avg: "$ratings.product_rating",
           //     },
           //   },
           // },
+          // { $project: { category: "$_id", avgRating: 1 } },
         ])
         .exec();
       console.log("result:", result);

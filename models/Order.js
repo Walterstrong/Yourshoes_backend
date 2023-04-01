@@ -68,7 +68,7 @@ class Order {
 
   async saveOrderItemData(item, order_id) {
     try {
-      order_id = shapeIntoMongooseObjectId(order_id);
+      order_id = shapeIntoMongooseObjectId(order_id._id);
       item._id = shapeIntoMongooseObjectId(item._id);
       const order_item = new this.orderItemModel({
         item_quantity: item["quantity"],

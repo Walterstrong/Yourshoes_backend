@@ -7,6 +7,7 @@ let commentController = module.exports;
 commentController.createComment = async (req, res) => {
   try {
     console.log("POST: cont/createComment");
+    console.log("req.body", req.body);
 
     const comment = new Comment();
     const result = await comment.createCommentData(req.member, req.body);

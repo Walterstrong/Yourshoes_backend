@@ -10,11 +10,11 @@ const Schema = mongoose.Schema;
 
 const productSchema = new mongoose.Schema(
   {
-    // restaurant_mb_id: {
-    //   type: Schema.Types.ObjectId,
-    //   ref: "Member",
-    //   required: true,
-    // },
+    restaurant_mb_id: {
+      type: Schema.Types.ObjectId,
+      ref: "Member",
+      required: true,
+    },
 
     product_name: {
       type: String,
@@ -106,7 +106,7 @@ const productSchema = new mongoose.Schema(
   { timestamps: true }
 );
 productSchema.index(
-  { brand_mb_id: 1, product_name: 1, product_size: 1 },
+  { restaurant_mb_id: 1, product_name: 1, product_size: 1 },
   { unique: true }
 );
 

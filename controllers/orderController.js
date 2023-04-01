@@ -8,7 +8,7 @@ orderController.createOrder = async (req, res) => {
   try {
     console.log("POST: cont/createOrder");
     assert.ok(req.member, Definer.auth_err5);
-    
+
     const order = new Order();
     const result = await order.createOrderData(req.member, req.body);
 
@@ -23,7 +23,7 @@ orderController.getMyOrders = async (req, res) => {
   try {
     console.log("GET: cont/getMyOrders");
     assert.ok(req.member, Definer.auth_err5);
-
+    console.log("GET: cont/sdfdsf");
     const order = new Order();
     const result = await order.getMyOrdersData(req.member, req.query);
 

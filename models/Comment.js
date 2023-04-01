@@ -27,15 +27,22 @@ class Comment {
       const comment = new this.commentModel(data);
       return await comment.save();
     } catch (mongo_err) {
-      console.login(mongo_err);
+      console.log(mongo_err);
       throw new Error(Definer.mongo_validation_err1);
     }
   }
 
   async getCommentsData(member, inquery) {
     try {
+      console.log("inquery", inquery);
       const auth_mb_id = shapeIntoMongooseObjectId(member?._id);
-      let matches = { comment_status: "active" };
+      const product_id = shapeIntoMongooseObjectId(
+        inquery.comment_ref_product_id
+      );
+      let matches = {
+        comment_status: "active",
+        comment_ref_product_id: product_id,
+      };
       inquery.limit *= 1;
       inquery.page *= 1;
 
