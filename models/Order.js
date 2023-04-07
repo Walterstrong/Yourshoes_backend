@@ -58,7 +58,7 @@ class Order {
         return await this.saveOrderItemData(item, order_id);
       });
       const results = await Promise.all(pro_list);
-      console.log("results:::", results);
+      // console.log("results:::", results);
       return true;
     } catch (err) {
       console.log(err);
@@ -133,10 +133,12 @@ class Order {
 
   async editChosenOrderData(member, data) {
     try {
+      // console.log("member:", member._id);
+      // console.log("order:", data);
       const mb_id = shapeIntoMongooseObjectId(member._id),
         order_id = shapeIntoMongooseObjectId(data.order_id),
         order_status = data.order_status.toUpperCase();
-
+      // console.log("1");
       const result = await this.orderModel.findOneAndUpdate(
         {
           mb_id: mb_id,
@@ -145,8 +147,9 @@ class Order {
         { order_status: order_status },
         { runValidators: true, lean: true, returnDocument: "after" }
       );
-
+      // console.log("2");
       assert.ok(result, Definer.order_err5);
+      // console.log("3");
       return result;
     } catch (err) {
       throw err;

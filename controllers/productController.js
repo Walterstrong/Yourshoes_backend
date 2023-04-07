@@ -38,7 +38,7 @@ productController.addNewProduct = async (req, res) => {
   try {
     console.log("POST: cont/addNewProduct");
     assert(req.files, Definer.general_err3);
-    console.log("req.files: " + req.files);
+    // console.log("req.files: " + req.files);
     const product = new Product();
     let data = req.body;
 

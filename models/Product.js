@@ -22,7 +22,7 @@ class Product {
   async getAllProductsData(member, data) {
     try {
       const auth_mb_id = shapeIntoMongooseObjectId(member?._id);
-      console.log("data:", data);
+      // console.log("data:", data);
       let match = { product_status: "PROCESS" };
 
       if (data.restaurant_mb_id !== "all") {
@@ -75,29 +75,9 @@ class Product {
           look_up_member_viewed(auth_mb_id),
           // look_up_product_price(auth_mb_id),
           // look_up_product_price(auth_mb_id),
-          // {
-          //   $lookup: {
-          //     from: "comments",
-          //     localField: "_id",
-          //     foreignField: "comment_ref_product_id",
-          //     as: "ratings",
-          //   },
-          // },
-          // {
-          //   $unwind: "$ratings",
-          // },
-          // {
-          //   $group: {
-          //     _id: "$ratings.comment_ref_product_id",
-          //     avgRating: {
-          //       $avg: "$ratings.product_rating",
-          //     },
-          //   },
-          // },
-          // { $project: { category: "$_id", avgRating: 1 } },
         ])
         .exec();
-      console.log("result:", result);
+      // console.log("result:", result);
       assert.ok(result, Definer.general_err1);
 
       return result;

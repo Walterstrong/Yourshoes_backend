@@ -74,17 +74,6 @@ const productSchema = new mongoose.Schema(
         message: "{VALUE} is not among permitted values",
       },
     },
-    // product_volume: {
-    //   type: String,
-    //   default: 1,
-    //   required: function () {
-    //     return this.product_collection === "drink";
-    //   },
-    //   enum: {
-    //     values: product_volume_enums,
-    //     message: "{VALUE} is not among permitted values",
-    //   },
-    // },
     product_description: { type: String, required: true },
     product_images: { type: Array, required: false, default: [] },
     product_likes: {
@@ -97,10 +86,15 @@ const productSchema = new mongoose.Schema(
       required: false,
       default: 0,
     },
-    brand_mb_id: {
-      type: Schema.Types.ObjectId,
-      ref: "Member",
+    product_reviews: {
+      type: Number,
       required: false,
+      default: 0,
+    },
+    product_rating: {
+      type: Number,
+      required: false,
+      default: 0,
     },
   },
   { timestamps: true }

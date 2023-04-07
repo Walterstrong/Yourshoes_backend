@@ -30,7 +30,7 @@ class Community {
       const article = new this.boArticleModel(data);
       return await article.save();
     } catch (mongo_err) {
-      console.login(mongo_err);
+      console.log(mongo_err);
       throw new Error(Definer.mongo_validation_err1);
     }
   }

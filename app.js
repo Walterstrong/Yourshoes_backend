@@ -115,22 +115,7 @@ io.on("connection", function (socket) {
 //socket.broadcast.emit() || => ulangan odamdan tashqari bo'lgan userlarga malumot yuborish
 //io.emit() || => barcha userlarga xabar yuborish
 
-const bot = new TelegramBot(token, { polling: true });
-
-bot.on("message", (message) => {
-  //console.log(message.chat.id);
-  console.log(message);
-  const text = message.text;
-  const chatId = message.chat.id;
-
-  if (text === "/start") {
-    bot.sendMessage(chatId, `hello Mr. ${message.chat.first_name}`);
-  } else if (text === "kim bu") {
-    bot.sendMessage(chatId, `mening ismim ${message.chat.first_name}`);
-  }
-
-  // const chat_id = message.from.chat_id;
-  // bot.sendMessage(chat_id, "Hello from NodeJs");
-});
+// const chat_id = message.from.chat_id;
+// bot.sendMessage(chat_id, "Hello from NodeJs");
 
 module.exports = server;
