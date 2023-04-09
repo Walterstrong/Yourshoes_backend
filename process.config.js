@@ -4,7 +4,8 @@ module.exports = {
       name: "YOURSHOES",
       cwd: "./",
       script: "./server.js",
-      watch: true,
+      watch: false,
+      ignore_watch: ["uploads"],
       env_production: {
         NODE_ENV: "production",
       },
