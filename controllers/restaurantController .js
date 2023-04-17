@@ -124,6 +124,7 @@ restaurantController.logout = async (req, res) => {
 };
 
 restaurantController.validateAuthRestaurant = (req, res, next) => {
+  console.log("mb_type:", req.session.member.mb_type);
   if (req.session?.member?.mb_type === "RESTAURANT") {
     req.member = req.session.member;
     next();

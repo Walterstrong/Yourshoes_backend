@@ -57,10 +57,24 @@ const productSchema = new mongoose.Schema(
       type: Number,
       required: false,
     },
-    product_discount: {
-      type: Number,
-      required: false,
-      default: 0,
+    discount: {
+      type: {
+        type: String,
+        enum: ["percentage", "amount"],
+        required: false,
+      },
+      value: {
+        type: Number,
+        required: false,
+      },
+      startDate: {
+        type: Date,
+        required: false,
+      },
+      endDate: {
+        type: Date,
+        required: false,
+      },
     },
     product_left_cnt: {
       type: Number,

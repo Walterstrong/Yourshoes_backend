@@ -52,6 +52,11 @@ router.get(
   productController.getChosenProduct
 );
 
+router.post(
+  "/products/edit_discount/:id",
+  // restaurantController.validateAuthRestaurant,
+  productController.updateChosenProductDiscount
+);
 // Restaurant related routers
 router.get(
   "/restaurants",

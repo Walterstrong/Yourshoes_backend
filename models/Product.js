@@ -25,11 +25,20 @@ class Product {
       // console.log("data:", data);
       let match = { product_status: "PROCESS" };
 
+      if (data.order === "discount.value") {
+        match["$expr"] = {
+          $and: [
+            { $ifNull: ["$discount", false] },
+            { $lte: ["$discount.startDate", new Date()] },
+            { $gte: ["$discount.endDate", new Date()] },
+          ],
+        };
+      }
+
       if (data.restaurant_mb_id !== "all") {
         match["restaurant_mb_id"] = shapeIntoMongooseObjectId(
           data.restaurant_mb_id
         );
-      } else {
       }
 
       //product_collection;
@@ -60,24 +69,94 @@ class Product {
         match["product_color"] = data.product_color;
       }
 
-      const sort =
-        data.order === "product_price"
-          ? { [data.order]: 1 }
-          : { [data.order]: -1 };
+      const sort = {};
 
-      const result = await this.productModel
-        .aggregate([
-          { $match: match },
-          { $sort: sort },
-          { $skip: (data.page * 1 - 1) * data.limit },
-          { $limit: data.limit * 1 },
-          look_up_member_liked(auth_mb_id),
-          look_up_member_viewed(auth_mb_id),
-          // look_up_product_price(auth_mb_id),
-          // look_up_product_price(auth_mb_id),
-        ])
-        .exec();
-      // console.log("result:", result);
+      if (data.order === "product_price") {
+        sort[data.order] = 1;
+      } else if (data.order === "discount.value") {
+        sort["sortDiscountValue"] = -1;
+      } else {
+        sort[data.order] = -1;
+      }
+
+      const pipeline = [
+        { $match: match },
+        {
+          $addFields: {
+            discountedPrice: {
+              $cond: [
+                {
+                  $and: [
+                    { $ifNull: ["$discount", false] },
+                    { $lte: ["$discount.startDate", new Date()] },
+                    { $gte: ["$discount.endDate", new Date()] },
+                    { $ne: ["$discount.value", 0] },
+                  ],
+                },
+                {
+                  $cond: [
+                    { $eq: ["$discount.type", "percentage"] },
+                    {
+                      $multiply: [
+                        {
+                          $subtract: [1, { $divide: ["$discount.value", 100] }],
+                        },
+                        "$product_price",
+                      ],
+                    },
+                    { $subtract: ["$product_price", "$discount.value"] },
+                  ],
+                },
+                {
+                  $cond: [{ $eq: ["$discount.value", 0] }, 0, 0],
+                },
+              ],
+            },
+          },
+        },
+        {
+          $addFields: {
+            discountedPrice: {
+              $cond: [{ $eq: ["$discount.value", 0] }, 0, "$discountedPrice"],
+            },
+          },
+        },
+        {
+          $addFields: {
+            sortDiscountValue: {
+              $cond: [
+                {
+                  $and: [
+                    { $ifNull: ["$discount", false] },
+                    { $lte: ["$discount.startDate", new Date()] },
+                    { $gte: ["$discount.endDate", new Date()] },
+                  ],
+                },
+                "$discount.value",
+                null,
+              ],
+            },
+          },
+        },
+        {
+          $addFields: {
+            sortDiscountValue: {
+              $cond: [
+                { $eq: ["$sortDiscountValue", null] },
+                -Infinity,
+                "$sortDiscountValue",
+              ],
+            },
+          },
+        },
+        { $sort: sort },
+        { $skip: (data.page * 1 - 1) * data.limit },
+        { $limit: data.limit * 1 },
+        look_up_member_liked(auth_mb_id),
+        look_up_member_viewed(auth_mb_id),
+      ];
+
+      const result = await this.productModel.aggregate(pipeline).exec();
       assert.ok(result, Definer.general_err1);
 
       return result;
@@ -95,14 +174,48 @@ class Product {
         const member_obj = new Member();
         await member_obj.viewChosenItemByMember(member, id, "product");
       }
+      let match = { _id: id, product_status: "PROCESS" };
 
-      const result = await this.productModel
-        .aggregate([
-          { $match: { _id: id, product_status: "PROCESS" } },
-          look_up_member_liked(auth_mb_id),
-          look_up_member_viewed(auth_mb_id),
-        ])
-        .exec();
+      const pipeline = [
+        { $match: match },
+        {
+          $addFields: {
+            discountedPrice: {
+              $cond: [
+                {
+                  $and: [
+                    { $ifNull: ["$discount", false] },
+                    { $lte: ["$discount.startDate", new Date()] },
+                    { $gte: ["$discount.endDate", new Date()] },
+                    { $ne: ["$discount.value", 0] },
+                  ],
+                },
+                {
+                  $cond: [
+                    { $eq: ["$discount.type", "percentage"] },
+                    {
+                      $multiply: [
+                        {
+                          $subtract: [1, { $divide: ["$discount.value", 100] }],
+                        },
+                        "$product_price",
+                      ],
+                    },
+                    { $subtract: ["$product_price", "$discount.value"] },
+                  ],
+                },
+                {
+                  $cond: [{ $eq: ["$discount.value", 0] }, 0, 0],
+                },
+              ],
+            },
+          },
+        },
+        look_up_member_liked(auth_mb_id),
+        look_up_member_viewed(auth_mb_id),
+      ];
+
+      const result = await this.productModel.aggregate(pipeline).exec();
       assert.ok(result, Definer.general_err1);
       // console.log("result", result);
       return result[0];
@@ -142,18 +255,74 @@ class Product {
       throw err;
     }
   }
-
-  async updateChosenProductData(id, updated_data, mb_id) {
+  // for bssr
+  async updateChosenProductData(id, updated_data) {
     try {
+      console.log("1");
       id = shapeIntoMongooseObjectId(id);
-      mb_id = shapeIntoMongooseObjectId(mb_id);
-
+      // mb_id = shapeIntoMongooseObjectId(mb_id);
+      console.log("2");
       const result = await this.productModel
-        .findOneAndUpdate({ _id: id, restaurant_mb_id: mb_id }, updated_data, {
+        .findOneAndUpdate({ _id: id }, updated_data, {
           runValidators: true,
           lean: true,
           returnDocument: "after",
         })
+        .exec();
+      console.log("3", result);
+      assert.ok(result, Definer.product_err1);
+      return result;
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async updateChosenDiscountProductData(productId, update) {
+    try {
+      console.log("1");
+      productId = shapeIntoMongooseObjectId(productId);
+      // mb_id = shapeIntoMongooseObjectId(mb_id);
+
+      const result = await this.productModel
+        .findByIdAndUpdate(
+          { _id: productId },
+          {
+            $set: {
+              "discount.type": update.discount.type,
+              "discount.value": update.discount.value,
+              "discount.startDate": update.discount.startDate,
+              "discount.endDate": update.discount.endDate,
+            },
+          },
+          { runValidators: true, lean: true, returnDocument: "after" }
+        )
+        .exec();
+
+      console.log("3", result);
+      assert.ok(result, Definer.product_err1);
+      return result;
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async updateChosenProductDiscountDataAll() {
+    try {
+      const result = await this.productModel
+        .updateMany(
+          { product_discount: { $exists: true } },
+          {
+            $set: {
+              discount: {
+                type: "percentage",
+                value: 0,
+                startDate: null,
+                endDate: null,
+              },
+            },
+            $unset: { product_discount: "" },
+          }
+        )
         .exec();
 
       assert.ok(result, Definer.product_err1);

@@ -56,4 +56,10 @@ router_bssr.post(
   restaurantController.updateRestaurantByAdmin
 );
 
+router_bssr.put(
+  "/update-discounts/",
+  // restaurantController.validateAuthRestaurant,
+  productController.updateChosenProductDiscount
+);
+
 module.exports = router_bssr;
