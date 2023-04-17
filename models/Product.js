@@ -22,7 +22,7 @@ class Product {
   async getAllProductsData(member, data) {
     try {
       const auth_mb_id = shapeIntoMongooseObjectId(member?._id);
-      // console.log("data:", data);
+
       let match = { product_status: "PROCESS" };
 
       if (data.order === "discount.value") {
@@ -39,6 +39,12 @@ class Product {
         match["restaurant_mb_id"] = shapeIntoMongooseObjectId(
           data.restaurant_mb_id
         );
+      }
+
+      if (data.product_name !== "all") {
+        match["product_name"] = {
+          $regex: new RegExp(data.product_name, "i"),
+        };
       }
 
       //product_collection;
