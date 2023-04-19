@@ -2,7 +2,6 @@ const {
   shapeIntoMongooseObjectId,
   look_up_member_liked,
   look_up_member_viewed,
-  look_up_product_price,
 } = require("../lib/config");
 const {
   product_collection_enums,
