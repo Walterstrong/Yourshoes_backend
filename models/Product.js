@@ -269,11 +269,15 @@ class Product {
       // mb_id = shapeIntoMongooseObjectId(mb_id);
       console.log("2");
       const result = await this.productModel
-        .findOneAndUpdate({ _id: id }, updated_data, {
-          runValidators: true,
-          lean: true,
-          returnDocument: "after",
-        })
+        .findOneAndUpdate(
+          { _id: id },
+          { $set: updated_data },
+          {
+            runValidators: true,
+            lean: true,
+            returnDocument: "after",
+          }
+        )
         .exec();
       console.log("3", result);
       assert.ok(result, Definer.product_err1);

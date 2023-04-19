@@ -8,7 +8,7 @@
           <a class="nav-link active" href="/resto">Home</a>
         </li>
         <li class="nav-item" style="cursor: pointer">
-          <a class="nav-link" href="/resto/products/menu">MyResto</a>
+          <a class="nav-link" href="/resto/products/menu">MyBrand</a>
         </li>
         <li class="nav-item" style="cursor: pointer">
           <a class="nav-link" href="/resto/logout">Logout</a>
@@ -19,37 +19,56 @@
       <div class="restaurant_container">
         <div class="dishs_table">
           <span class="new_dish_txt">
-            <%= member.mb_nick.toUpperCase()%> Products lists
+            <%= member.mb_nick%> Products 
           </span>
-          <table class="table table-bordered table-hover">
-            <thead class="thead-light">
+          <table class="table table-bordered table-hover" style="align-items: center;">
+            <thead class="thead-light" style="font-size: 13px; text-align: center;  align-items: center;" >
               <th scope="col">N#</th>
               <th scope="col">Product name</th>
               <th scope="col">Product size</th>
-              <th scope="col">Product color </th>
-              <th scope="col">Product price </th>
+              <th scope="col">Product color</th>
+              <th scope="col">Product price</th>
               <th scope="col">Product type</th>
               <th scope="col">Product collection</th>
               <th scope="col">Product stock</th>
               <th scope="col">Product status</th>
-              
+              <th scope="col">Discount type</th>
+              <th scope="col">Discount value</th>
+              <th scope="col">Discount startDate</th>
+              <th scope="col">Discount endDate</th>
             </thead>
 
             <% restaurant_data.map((value, key)=> { %>
-            <tbody style="background: white">
+            <tbody style="background: white; font-size: 12px; text-justify: auto; text-align: center;">
               <td><%= key + 1 %></td>
               <td><%= value.product_name %></td>
               <td><%= value.product_size %></td>
               <td><%= value.product_color %></td>
               <td><%= value.product_price %></td>
-              <td><%= value.product_type %></td>
+              <td><%= value.product_type %></tde=>
               <td><%= value.product_collection %></td>
               <td><%= value.product_left_cnt %></td>
               <td>
                 <select class="spec_select new_product_status" id="<%= value._id %>">
-                  <option value="PROCESS" <%= value.product_status === 'PROCESS' ? 'selected' : '' %> >PROCESS</option>
-                  <option value="PAUSED" <%= value.product_status ==='PAUSED' ? 'selected' : '' %> >PAUSED</option>
+                  <option value="PROCESS" <%= value.product_status === 'PROCESS' ? 'selected' : '' %>> Process</option>
+                  <option value="PAUSED" <%= value.product_status ==='PAUSED' ? 'selected' : '' %>> Paused</option>
                 </select>
+              </td>
+              <td>
+                <select class="spec_select discount_type" id="<%= value._id %>" style="width: 110px;">
+                  <option value="percentage" <%= value.discount.type === 'percentage' ? 'selected' : '' %> >Percentage</option>
+                  <option value="amount" <%= value.discount.type ==='amount' ? 'selected' : '' %> >Amount</option>
+                </select>
+              </td> 
+              <td>
+                <input class="spec_select discount_value" id="<%= value._id %>" placeholder="<%= value.discount.value %>" type="number" style="width: 60px;"/>
+              </td>
+              <td>
+                <input class="spec_select discount_startDate" id="<%= value._id %>" value="<%= value.discount.startDate ? value.discount.startDate.toISOString().split('T')[0] : '' %>" type="date" style="width: 120px;" />
+              </td>
+              
+              <td>
+                <input class="spec_select discount_endDate" id="<%= value._id %>" value="<%= value.discount.endDate ? value.discount.endDate.toISOString().split('T')[0] : '' %>" type="date" style="width: 120px;" />
               </td>
             </tbody>
             <% });%>
@@ -90,7 +109,7 @@
             />
           </div>
 
-          <div class="half_input_frame" >
+          <div class="half_input_frame">
             <div class="half_input" id="product_price">
               <label>Product price</label
               ><input
@@ -110,8 +129,49 @@
               />
             </div>
           </div>
+          <div class="half_input_frame">
+            <div class="half_input" id="discount_type">
+              <label>Discount Type</label>
+              <select name="discount[type]" class="discount_type">
+                <option value="percentage">Percentage</option>
+                <option value="amount">Amount</option>
+              </select>
+            </div>
+            <div class="half_input" id="discount_value">
+              <label>Discount Value</label>
+              <input
+                type="number"
+                placeholder="Discount value"
+                name="discount[value]"
+                class="discount_value"
+                min="0"
+              />
+            </div>
+          </div>
+
+          <div class="half_input_frame">
+            <div class="half_input" id="discount_start_date">
+              <label>Start Date</label>
+              <input
+                type="date"
+                placeholder="Start date"
+                name="discount[startDate]"
+                class="discount_start_date"
+              />
+            </div>
+            <div class="half_input" id="discount_end_date">
+              <label>End Date</label>
+              <input
+                type="date"
+                placeholder="End date"
+                name="discount[endDate]"
+                class="discount_end_date"
+              />
+            </div>
+          </div>
+
           <div>
-            <div class="half_input_frame" >
+            <div class="half_input_frame">
               <div class="half_input" id="product_collection">
                 <label>Product collection</label>
                 <select name="product_collection" class="product_collection">
@@ -119,7 +179,6 @@
                   <option value="running" selected>Running</option>
                   <option value="training" selected>Training</option>
                   <option value="sports" selected>Sports</option>
-                  
                 </select>
               </div>
               <div class="half_input" id="product_size">
@@ -130,10 +189,8 @@
                   <option value="275" selected>275</option>
                   <option value="280" selected>280</option>
                   <option value="285" selected>285</option>
-                  
                 </select>
               </div>
-              
             </div>
             <div class="half_input_frame">
               <div class="half_input" id="product_color">
@@ -151,10 +208,8 @@
                 <select name="product_type" class="product_type">
                   <option value="men">men</option>
                   <option value="women" selected>women</option>
-                  
                 </select>
               </div>
-              
             </div>
           </div>
           <div class="long_input">
@@ -164,6 +219,7 @@
               class="product_description"
             ></textarea>
           </div>
+
           <div class="img_frame">
             <label>Product pictures </label>
             <div class="media-frame">
@@ -263,6 +319,99 @@
         const response = await axios.post(`/resto/products/edit/${id}`, {
           id: id,
           product_status: product_status,
+        });
+        const result = response.data;
+        console.log("result:", result);
+
+        if (result.state == "success") {
+          alert("success");
+          location.reload();
+        } else {
+          alert(result.message);
+        }
+      } catch (err) {
+        console.log("updateChosenProduct err:", err);
+      }
+    });
+
+    $(".discount_type").on("change", async function (e) {
+      const id = e.target.id;
+      const discount_type = $(`#${id}.discount_type`).val();
+
+      try {
+        const response = await axios.post(`/resto/products/edit/${id}`, {
+          id: id,
+          "discount.type": discount_type,
+        });
+        const result = response.data;
+        console.log("result:", result);
+
+        if (result.state == "success") {
+          alert("success");
+          location.reload();
+        } else {
+          alert(result.message);
+        }
+      } catch (err) {
+        console.log("updateChosenProduct err:", err);
+      }
+    });
+
+    $(".discount_value").on("change", async function (e) {
+      const id = e.target.id;
+      const discount_value = $(`#${id}.discount_value`).val();
+
+      try {
+        const response = await axios.post(`/resto/products/edit/${id}`, {
+          id: id,
+          "discount.value": discount_value,
+        });
+        const result = response.data;
+        console.log("result:", result);
+
+        if (result.state == "success") {
+          alert("success");
+          location.reload();
+        } else {
+          alert(result.message);
+        }
+      } catch (err) {
+        console.log("updateChosenProduct err:", err);
+      }
+    });
+
+    $(".discount_startDate").on("change", async function (e) {
+      const id = e.target.id;
+      const discount_startDate = $(`#${id}.discount_startDate`).val();
+
+      try {
+        const response = await axios.post(`/resto/products/edit/${id}`, {
+          id: id,
+          "discount.startDate": discount_startDate,
+        });
+        const result = response.data;
+        console.log("result:", result);
+
+        if (result.state == "success") {
+          alert("success");
+          location.reload();
+        } else {
+          alert(result.message);
+        }
+      } catch (err) {
+        console.log("updateChosenProduct err:", err);
+      }
+    });
+
+
+    $(".discount_endDate").on("change", async function (e) {
+      const id = e.target.id;
+      const discount_endDate = $(`#${id}.discount_endDate`).val();
+
+      try {
+        const response = await axios.post(`/resto/products/edit/${id}`, {
+          id: id,
+          "discount.endDate": discount_endDate,
         });
         const result = response.data;
         console.log("result:", result);

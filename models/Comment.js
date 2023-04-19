@@ -141,13 +141,18 @@ class Comment {
     try {
       // console.log("inquery", inquery);
       const auth_mb_id = shapeIntoMongooseObjectId(member?._id);
-      const product_id = shapeIntoMongooseObjectId(
-        inquery.comment_ref_product_id
-      );
+
       let matches = {
         comment_status: "active",
-        comment_ref_product_id: product_id,
       };
+
+      if (inquery.comment_ref_product_id !== "all") {
+        const product_id = shapeIntoMongooseObjectId(
+          inquery.comment_ref_product_id
+        );
+        matches["comment_ref_product_id"] = product_id;
+      }
+
       inquery.limit *= 1;
       inquery.page *= 1;
 

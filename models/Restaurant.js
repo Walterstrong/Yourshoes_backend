@@ -49,6 +49,7 @@ class Restaurant {
 
       const result = await this.memberModel.aggregate(aggregationQuery).exec();
       assert.ok(result, Definer.general_err2);
+      console.log("result:", result);
       return result;
     } catch (err) {
       throw err;
