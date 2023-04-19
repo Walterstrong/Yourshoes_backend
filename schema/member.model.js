@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const uniqueValidator = require("mongoose-unique-validator");
 const {
   member_type_enums,
   member_status_enums,
@@ -89,4 +90,7 @@ const memberSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+memberSchema.plugin(uniqueValidator, {
+  message: "This mb_nick is already in use.",
+});
 module.exports = mongoose.model("Member", memberSchema);
