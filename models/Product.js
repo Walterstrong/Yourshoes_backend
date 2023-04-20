@@ -46,6 +46,12 @@ class Product {
         };
       }
 
+      if (data.min_price !== undefined && data.max_price !== undefined) {
+        match["product_price"] = {
+          $gte: data.min_price * 1,
+          $lte: data.max_price * 1,
+        };
+      }
       //product_collection;
       if (data.product_collection === "all") {
         match["product_collection"] = { $in: product_collection_enums };
