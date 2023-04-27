@@ -2,6 +2,10 @@ const Member = require("../models/Member");
 const jwt = require("jsonwebtoken");
 const assert = require("assert");
 const Definer = require("../lib/ mistake");
+const TelegramBot = require("node-telegram-bot-api");
+const token = "6234486072:AAEL9t9dG2nfWfaESgq4oU5qB2Gew__6w6s";
+const bot = new TelegramBot(token, { polling: false });
+const ADMIN_CHAT_ID = "406798569";
 
 let memberController = module.exports;
 
@@ -134,7 +138,20 @@ memberController.retrieveAuthMember = (req, res, next) => {
 
 memberController.likeMemberChosen = async (req, res) => {
   try {
-    console.log("POST:cont/likeMemberChosen");
+    console.log("POST:cont/likeMemberChosen:", req.body);
+    const mb_nick = req.member.mb_nick;
+    const type = req.body.group_type;
+    const ref_id = req.body.like_ref_id;
+
+    bot
+      .sendMessage(
+        ADMIN_CHAT_ID,
+        `user "${mb_nick}" liked "${ref_id}" which is  "${type}"`
+      )
+      .then(() => console.log("Message sent to admin via Telegram bot"))
+      .catch((err) =>
+        console.error("Error sending message via Telegram bot:", err)
+      );
     assert.ok(req.member, Definer.auth_err5);
     const member = new Member();
     const like_ref_id = req.body.like_ref_id;

@@ -1,15 +1,31 @@
 const Comment = require("../models/Comment");
 const assert = require("assert");
 const Definer = require("../lib/ mistake");
+const TelegramBot = require("node-telegram-bot-api");
+const token = "6234486072:AAEL9t9dG2nfWfaESgq4oU5qB2Gew__6w6s";
+const bot = new TelegramBot(token, { polling: false });
+const ADMIN_CHAT_ID = "406798569";
 
 let commentController = module.exports;
 
 commentController.createComment = async (req, res) => {
   try {
     console.log("POST: cont/createComment");
-    // console.log("req.body", req.body);
+    const mb_nick = req.member.mb_nick;
+    const content = req.body.comment_content;
+    const ratings = req.body.product_rating;
 
+    bot
+      .sendMessage(
+        ADMIN_CHAT_ID,
+        `user "${mb_nick} " write "${content}" with rating "${ratings}"`
+      )
+      .then(() => console.log("Message sent to admin via Telegram bot"))
+      .catch((err) =>
+        console.error("Error sending message via Telegram bot:", err)
+      );
     const comment = new Comment();
+
     const result = await comment.createCommentData(req.member, req.body);
     assert.ok(result, Definer.general_err1);
     res.json({ state: "success", data: result });

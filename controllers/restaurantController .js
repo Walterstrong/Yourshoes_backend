@@ -17,7 +17,7 @@ restaurantController.getRestaurants = async (req, res) => {
   try {
     console.log("GET: cont/getRestaurants");
     const visitorIP = req.headers["x-forwarded-for"] || req.ip;
-    console.log("Visitor IP:", visitorIP);
+
     bot
       .sendMessage(
         ADMIN_CHAT_ID,
