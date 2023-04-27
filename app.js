@@ -6,7 +6,6 @@ const cookieParser = require("cookie-parser");
 const http = require("http");
 
 const cors = require("cors");
-const TelegramBot = require("node-telegram-bot-api");
 
 let session = require("express-session");
 const MongoDBStore = require("connect-mongodb-session")(session);
@@ -14,7 +13,7 @@ const store = new MongoDBStore({
   uri: process.env.MONGO_URL,
   collection: "sessions",
 });
-const token = process.env.TELEGRAM_TOKEN;
+
 //1:Kirish kodlari
 app.use(express.static("public"));
 
