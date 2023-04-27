@@ -66,6 +66,7 @@ restaurantController.signupProcess = async (req, res) => {
 
     let new_member = req.body;
     new_member.mb_type = "RESTAURANT";
+    new_member.mb_status = "ONPAUSE";
     new_member.mb_image = req.file.path;
 
     const member = new Member();

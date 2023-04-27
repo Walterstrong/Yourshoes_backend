@@ -46,7 +46,7 @@ class Product {
         };
       }
 
-      if (data.min_price !== undefined && data.max_price !== undefined) {
+      if (data.min_price !== undefined || data.max_price !== undefined) {
         match["product_price"] = {
           $gte: data.min_price * 1,
           $lte: data.max_price * 1,

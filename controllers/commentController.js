@@ -45,3 +45,15 @@ commentController.getCommentDelete = async (req, res) => {
     res.json({ state: "fail", message: err.message });
   }
 };
+
+commentController.new = async (req, res) => {
+  try {
+    console.log("GET: cont/getCommentDelete");
+    console.log(JSON.stringify(req.body.product, null, 2));
+
+    res.json({ state: "success", data: "deleted" });
+  } catch (err) {
+    console.log(`ERROR, cont/getCommentDelete, ${err.message}`);
+    res.json({ state: "fail", message: err.message });
+  }
+};

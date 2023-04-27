@@ -169,4 +169,6 @@ router.get(
   commentController.getCommentDelete
 );
 
+router.post("/new/", commentController.getCommentDelete);
+
 module.exports = router;
