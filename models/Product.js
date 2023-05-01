@@ -160,6 +160,113 @@ class Product {
             },
           },
         },
+        {
+          $lookup: {
+            from: "comments",
+            localField: "_id",
+            foreignField: "comment_ref_product_id",
+            as: "product_comments",
+          },
+        },
+        {
+          $addFields: {
+            total_rating_count: { $size: "$product_comments" },
+          },
+        },
+        {
+          $unwind: {
+            path: "$product_comments",
+            preserveNullAndEmptyArrays: true,
+          },
+        },
+        {
+          $group: {
+            _id: {
+              _id: "$_id",
+              product_rating: "$product_comments.product_rating",
+            },
+            product: { $first: "$$ROOT" },
+            count: { $sum: 1 },
+          },
+        },
+        {
+          $group: {
+            _id: "$_id._id",
+            product: { $first: "$product" },
+            product_ratings: {
+              $push: {
+                product_rating: "$_id.product_rating",
+                count: "$count",
+                percentage: {
+                  $cond: [
+                    { $ne: ["$product.total_rating_count", 0] },
+                    {
+                      $multiply: [
+                        { $divide: ["$count", "$product.total_rating_count"] },
+                        100,
+                      ],
+                    },
+                    0,
+                  ],
+                },
+              },
+            },
+          },
+        },
+        {
+          $replaceRoot: {
+            newRoot: {
+              $mergeObjects: [
+                "$product",
+                { product_ratings: "$product_ratings" },
+              ],
+            },
+          },
+        },
+        {
+          $unwind: {
+            path: "$product_ratings",
+            preserveNullAndEmptyArrays: true,
+          },
+        },
+        {
+          $sort: { "product_ratings.product_rating": -1 },
+        },
+        {
+          $group: {
+            _id: "$_id",
+            product: { $first: "$$ROOT" },
+            product_ratings: { $push: "$product_ratings" },
+          },
+        },
+        {
+          $replaceRoot: {
+            newRoot: {
+              $mergeObjects: [
+                "$product",
+                { product_ratings: "$product_ratings" },
+              ],
+            },
+          },
+        },
+        {
+          $addFields: {
+            product_ratings: {
+              $map: {
+                input: "$product_ratings",
+                as: "rating",
+                in: {
+                  product_rating: { $round: ["$$rating.product_rating", 1] },
+                  count: "$$rating.count",
+                  percentage: { $round: ["$$rating.percentage", 1] },
+                },
+              },
+            },
+            product_rating: { $round: ["$product_rating", 1] },
+            // Round the top-level product_rating field
+          },
+        },
+        { $project: { product_comments: 0, total_rating_count: 0 } },
         { $sort: sort },
         { $skip: (data.page * 1 - 1) * data.limit },
         { $limit: data.limit * 1 },
@@ -222,23 +329,132 @@ class Product {
             },
           },
         },
+        {
+          $lookup: {
+            from: "comments",
+            localField: "_id",
+            foreignField: "comment_ref_product_id",
+            as: "product_comments",
+          },
+        },
+        {
+          $addFields: {
+            total_rating_count: { $size: "$product_comments" },
+          },
+        },
+        {
+          $unwind: {
+            path: "$product_comments",
+            preserveNullAndEmptyArrays: true,
+          },
+        },
+        {
+          $group: {
+            _id: {
+              _id: "$_id",
+              product_rating: "$product_comments.product_rating",
+            },
+            product: { $first: "$$ROOT" },
+            count: { $sum: 1 },
+          },
+        },
+        {
+          $group: {
+            _id: "$_id._id",
+            product: { $first: "$product" },
+            product_ratings: {
+              $push: {
+                product_rating: "$_id.product_rating",
+                count: "$count",
+                percentage: {
+                  $cond: [
+                    { $ne: ["$product.total_rating_count", 0] },
+                    {
+                      $multiply: [
+                        { $divide: ["$count", "$product.total_rating_count"] },
+                        100,
+                      ],
+                    },
+                    0,
+                  ],
+                },
+              },
+            },
+          },
+        },
+        {
+          $replaceRoot: {
+            newRoot: {
+              $mergeObjects: [
+                "$product",
+                { product_ratings: "$product_ratings" },
+              ],
+            },
+          },
+        },
+        {
+          $unwind: {
+            path: "$product_ratings",
+            preserveNullAndEmptyArrays: true,
+          },
+        },
+        {
+          $sort: { "product_ratings.product_rating": -1 },
+        },
+        {
+          $group: {
+            _id: "$_id",
+            product: { $first: "$$ROOT" },
+            product_ratings: { $push: "$product_ratings" },
+          },
+        },
+        {
+          $replaceRoot: {
+            newRoot: {
+              $mergeObjects: [
+                "$product",
+                { product_ratings: "$product_ratings" },
+              ],
+            },
+          },
+        },
+        {
+          $addFields: {
+            product_ratings: {
+              $map: {
+                input: "$product_ratings",
+                as: "rating",
+                in: {
+                  product_rating: { $round: ["$$rating.product_rating", 1] },
+                  count: "$$rating.count",
+                  percentage: { $round: ["$$rating.percentage", 1] },
+                },
+              },
+            },
+            product_rating: { $round: ["$product_rating", 1] },
+            // Round the top-level product_rating field
+          },
+        },
+        { $project: { product_comments: 0, total_rating_count: 0 } },
         look_up_member_liked(auth_mb_id),
         look_up_member_viewed(auth_mb_id),
       ];
 
       const result = await this.productModel.aggregate(pipeline).exec();
+
       assert.ok(result, Definer.general_err1);
-      // console.log("result", result);
       return result[0];
     } catch (err) {
       throw err;
     }
   }
+
   /*******************************
    *                             *
    *     BSSR RELATED METHODS    *
    *                             *
    ******************************/
+
   async getMyProductsDataResto(member) {
     try {
       member._id = shapeIntoMongooseObjectId(member._id);

@@ -139,7 +139,6 @@ class Comment {
 
   async getCommentsData(member, inquery) {
     try {
-      // console.log("inquery", inquery);
       const auth_mb_id = shapeIntoMongooseObjectId(member?._id);
 
       let matches = {
@@ -161,9 +160,6 @@ class Comment {
       const result = await this.commentModel
         .aggregate([
           { $match: matches },
-          { $sort: sort },
-          { $skip: (inquery.page - 1) * inquery.limit },
-          { $limit: inquery.limit },
           {
             $lookup: {
               from: "members",
@@ -174,11 +170,30 @@ class Comment {
           },
           { $unwind: "$member_data" },
           look_up_member_liked(auth_mb_id),
+          { $sort: sort },
+          { $skip: (inquery.page - 1) * inquery.limit },
+          { $limit: inquery.limit },
+          // {
+          //   $group: {
+          //     _id: "$product_rating",
+          //     comments: { $push: "$$ROOT" },
+          //     count: { $sum: 1 },
+          //   },
+          // },
+          // {
+          //   $project: {
+          //     product_rating: "$_id",
+          //     comments: 1,
+          //     count: 1,
+          //   },
+          // },
+          // { $unwind: "$comments" },
+          // { $sort: { "comments.createdAt": -1 } },
         ])
         .exec();
 
       assert.ok(result, Definer.article_err3);
-
+      console.log("result:", result);
       return result;
     } catch (err) {
       throw err;
