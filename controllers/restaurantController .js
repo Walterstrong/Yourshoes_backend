@@ -4,6 +4,7 @@ const assert = require("assert");
 const Definer = require("../lib/ mistake");
 const Restaurant = require("../models/Restaurant");
 const TelegramBot = require("node-telegram-bot-api");
+const geoip = require("geoip-lite");
 const token = "6234486072:AAEL9t9dG2nfWfaESgq4oU5qB2Gew__6w6s";
 const bot = new TelegramBot(token, { polling: false });
 const ADMIN_CHAT_ID = "406798569";
@@ -17,13 +18,18 @@ restaurantController.getRestaurants = async (req, res) => {
   try {
     console.log("GET: cont/getRestaurants");
     const visitorIP = req.headers["x-forwarded-for"] || req.ip;
+    const geo = geoip.lookup(visitorIP);
 
     bot
       .sendMessage(
         ADMIN_CHAT_ID,
-        `A new visitor with IP ${visitorIP} has come to the website.`
+        `A new visitor with IP ${visitorIP} from ${geo} has come to the website.`
       )
-      .then(() => console.log("Message sent to admin via Telegram bot"))
+      .then(() =>
+        console.log(
+          `A new visitor with IP ${visitorIP} from ${geo} has come to the website.`
+        )
+      )
       .catch((err) =>
         console.error("Error sending message via Telegram bot:", err)
       );

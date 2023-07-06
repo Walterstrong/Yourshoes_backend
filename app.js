@@ -4,7 +4,8 @@ const router = require("./router.js");
 const router__bssr = require("./router_bssr.js");
 const cookieParser = require("cookie-parser");
 const http = require("http");
-
+//const passport = require("passport");
+const geoip = require("geoip-lite");
 const cors = require("cors");
 
 let session = require("express-session");
@@ -22,7 +23,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(cors({ credentials: true, origin: true }));
-
+//app.use(passport.initialize());
+//app.use(passport.session());
 app.use(router);
 
 //2: Session
