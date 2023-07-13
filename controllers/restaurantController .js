@@ -20,11 +20,12 @@ restaurantController.getRestaurants = async (req, res) => {
     const visitorIP = req.headers["x-forwarded-for"] || req.ip;
     const geo = geoip.lookup(visitorIP);
     const geo1 = JSON.stringify(geo);
+    console.log("geo1", geo1);
 
     bot
       .sendMessage(
         ADMIN_CHAT_ID,
-        `A new visitor with IP ${visitorIP} from ${geo1} has come to the website.`
+        `A new visitor with IP ${visitorIP} from ${geo1.timezone} has come to the website.`
       )
       .then(() =>
         console.log(
