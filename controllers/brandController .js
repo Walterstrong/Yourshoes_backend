@@ -1,10 +1,11 @@
 const Member = require("../models/Member");
 const Product = require("../models/Product");
 const assert = require("assert");
-const Definer = require("../lib/ mistake");
-const Restaurant = require("../models/Restaurant");
+
+const Brand = require("../models/Brand");
 const TelegramBot = require("node-telegram-bot-api");
-const geoip = require("geoip-lite");
+const { lookup } = require("geoip-lite");
+
 const token = "6234486072:AAEL9t9dG2nfWfaESgq4oU5qB2Gew__6w6s";
 const bot = new TelegramBot(token, { polling: false });
 const ADMIN_CHAT_ID = "406798569";
@@ -12,24 +13,25 @@ bot.on("message", async (msg) => {
   const chatId = msg.chat.id;
   console.log("Received chat ID:", chatId);
 });
-let restaurantController = module.exports;
 
-restaurantController.getRestaurants = async (req, res) => {
+let brandController = module.exports;
+
+brandController.getBrands = async function (req, res) {
   try {
-    console.log("GET: cont/getRestaurants");
+    console.log("GET: cont/getBrands");
     const visitorIP = req.headers["x-forwarded-for"] || req.ip;
-    const geo = geoip.lookup(visitorIP);
+    const geo = lookup(visitorIP);
     const geo1 = JSON.stringify(geo);
     console.log("geo1", geo1);
 
     bot
       .sendMessage(
         ADMIN_CHAT_ID,
-        `A new visitor with IP ${visitorIP} from ${geo1.timezone} has come to the website.`
+        `A new visitor with IP ${visitorIP}  has come to the website.`
       )
       .then(() =>
         console.log(
-          `A new visitor with IP ${visitorIP} from ${geo1} has come to the website.`
+          `A new visitor with IP ${visitorIP}  has come to the website.`
         )
       )
       .catch((err) =>
@@ -37,26 +39,26 @@ restaurantController.getRestaurants = async (req, res) => {
       );
     const data = req.query;
 
-    const restaurant = new Restaurant();
-    const result = await restaurant.getRestaurantsData(req.member, data);
+    const brand = new Brand();
+    const result = await brand.getBrandsData(req.member, data);
     res.json({ state: "success", data: result });
     // console.log("result:", result);
   } catch (err) {
-    console.log(`ERROR, cont/getRestaurants, ${err.message}`);
+    console.log(`ERROR, cont/getBrands, ${err.message}`);
   }
 };
 
-restaurantController.getChosenRestaurant = async (req, res) => {
+brandController.getChosenBrand = async function (req, res) {
   try {
-    console.log("GET: cont/getChosenRestaurant");
+    console.log("GET: cont/getChosenBrand");
 
     const id = req.params.id;
-    const restaurant = new Restaurant();
-    const result = await restaurant.getChosenRestaurantData(req.member, id);
+    const brand = new Brand();
+    const result = await brand.getChosenBrandData(req.member, id);
 
     res.json({ state: "success", data: result });
   } catch (err) {
-    console.log(`ERROR, cont/getChosenRestaurant, ${err.message}`);
+    console.log(`ERROR, cont/getChosenBrand, ${err.message}`);
   }
 };
 
@@ -66,7 +68,7 @@ restaurantController.getChosenRestaurant = async (req, res) => {
  *                             *
  ******************************/
 
-restaurantController.home = (req, res) => {
+brandController.home = function (req, res) {
   try {
     console.log("GET: cont/home");
     res.render("home-page");
@@ -75,20 +77,20 @@ restaurantController.home = (req, res) => {
   }
 };
 
-restaurantController.getSignupMyRestaurant = async (req, res) => {
+brandController.getSignupMyBrand = async function (req, res) {
   try {
-    console.log("GET: cont/getSignupMyRestaurant");
+    console.log("GET: cont/getSignupMyBrand");
     res.render("signup");
   } catch (err) {
-    console.log(`ERROR, cont/getSignupMyRestaurant, ${err.message}`);
+    console.log(`ERROR, cont/getSignupMyBrand, ${err.message}`);
     res.json({ state: "fail", message: err.message });
   }
 };
 
-restaurantController.signupProcess = async (req, res) => {
+brandController.signupProcess = async function (req, res) {
   try {
     console.log("POST: cont/signup");
-    assert(req.file, Definer.general_err3);
+    assert(req.file, general_err3);
 
     let new_member = req.body;
     new_member.mb_type = "RESTAURANT";
@@ -98,51 +100,49 @@ restaurantController.signupProcess = async (req, res) => {
     const member = new Member();
 
     const result = await member.signupData(new_member);
-    assert(req.file, Definer.general_err1);
+    assert(req.file, general_err1);
 
     req.session.member = result;
-    res.redirect("/resto/products/menu");
+    res.redirect("/shoes/products/menu");
   } catch (err) {
     console.log(`ERROR, cont/signupProcess, ${err.message}`);
     res.json({ state: "fail", message: err.message });
   }
 };
 
-restaurantController.getLoginMyRestaurant = async (req, res) => {
+brandController.getLoginMyBrand = async function (req, res) {
   try {
-    console.log("GET: cont/getLoginMyRestaurant");
+    console.log("GET: cont/getLoginMyBrand");
     res.render("login-page");
   } catch (err) {
-    console.log(`ERROR, cont/getLoginMyRestaurant, ${err.message}`);
+    console.log(`ERROR, cont/getLoginMyBrand, ${err.message}`);
     res.json({ state: "fail", message: err.message });
   }
 };
 
-restaurantController.loginProcess = async (req, res) => {
+brandController.loginProcess = async function (req, res) {
   try {
     console.log("POST:cont/loginProcess");
     const data = req.body;
     const member = new Member();
     const result = await member.loginData(data);
-    // console.log("result:", result);
     req.session.member = result;
     req.session.save(function () {
       result.mb_type === "ADMIN"
-        ? res.redirect("/resto/all-restaurants")
-        : res.redirect("/resto/products/menu");
+        ? res.redirect("/shoes/all_shoes_brands")
+        : res.redirect("/shoes/products/menu");
     });
-    // bu yerdan faqatgina adminlargina kirsin degan mantiqni yaratishimiz mumkin
   } catch (err) {
     console.log(`ERROR, cont/loginProcess, ${err.message}`);
     res.json({ state: "fail", message: err.message });
   }
 };
 
-restaurantController.logout = async (req, res) => {
+brandController.logout = async function (req, res) {
   try {
     console.log("GET cont/logout");
     req.session.destroy(function () {
-      res.redirect("/resto");
+      res.redirect("/shoes");
     });
   } catch (err) {
     console.log(`ERROR, cont/logout, ${err.message}`);
@@ -150,7 +150,7 @@ restaurantController.logout = async (req, res) => {
   }
 };
 
-restaurantController.validateAuthRestaurant = (req, res, next) => {
+brandController.validateAuthBrand = function (req, res, next) {
   console.log("mb_type:", req.session.member.mb_type);
   if (req.session?.member?.mb_type === "RESTAURANT") {
     req.member = req.session.member;
@@ -158,11 +158,11 @@ restaurantController.validateAuthRestaurant = (req, res, next) => {
   } else
     res.json({
       state: "fail",
-      message: "only authenticated members with restaurant type",
+      message: "only authenticated members with brand type",
     });
 };
 
-restaurantController.checkSessions = (req, res) => {
+brandController.checkSessions = function (req, res) {
   if (req.session?.member) {
     res.json({ state: "success", data: req.session.member });
   } else {
@@ -170,51 +170,51 @@ restaurantController.checkSessions = (req, res) => {
   }
 };
 
-restaurantController.getMyRestaurantProducts = async (req, res) => {
+brandController.getMyBrandProducts = async function (req, res) {
   try {
-    console.log("GET: cont/getMyRestaurantData");
+    console.log("GET: cont/getMyBrandData");
     const product = new Product();
-    const data = await product.getMyProductsDataResto(res.locals.member);
-    res.render("restaurant-menu", { restaurant_data: data });
+    const data = await product.getMyProductsDatashoes(res.locals.member);
+    res.render("brands-menu", { brand_data: data });
   } catch (err) {
-    console.log(`ERROR, cont/getMyRestaurantData, ${err.message}`);
-    res.redirect("/resto");
+    console.log(`ERROR, cont/getMyBrandData, ${err.message}`);
+    res.redirect("/shoes");
   }
 };
 
-restaurantController.getAllRestaurants = async (req, res) => {
+brandController.getAllBrands = async function (req, res) {
   try {
-    console.log("GET: cont/getAllRestaurants");
+    console.log("GET: cont/getAllBrands");
 
-    const restaurant = new Restaurant();
-    const restaurants_data = await restaurant.getAllRestaurantsData();
-    res.render("all-restaurants", { restaurants_data: restaurants_data });
+    const brand = new Brand();
+    const brands_data = await brand.getAllBrandsData();
+    res.render("all_shoes_brands", { brands_data: brands_data });
   } catch (err) {
-    console.log(`ERROR, cont/getAllRestaurants, ${err.message}`);
+    console.log(`ERROR, cont/getAllBrands, ${err.message}`);
     res.json({ state: "fail", message: err.message });
   }
 };
 
-restaurantController.updateRestaurantByAdmin = async (req, res) => {
+brandController.updateBrandByAdmin = async function (req, res) {
   try {
-    console.log("GET: cont/updateRestaurantByAdmin");
+    console.log("GET: cont/updateBrandByAdmin");
 
-    const restaurant = new Restaurant();
-    const result = await restaurant.updateRestaurantByAdminData(req.body);
+    const brand = new Brand();
+    const result = await brand.updateBrandByAdminData(req.body);
     await res.json({ state: "success", data: result });
   } catch (err) {
-    console.log(`ERROR, cont/updateRestaurantByAdmin, ${err.message}`);
+    console.log(`ERROR, cont/updateBrandByAdmin, ${err.message}`);
     res.json({ state: "fail", message: err.message });
   }
 };
 
-restaurantController.validateAdmin = (req, res, next) => {
+brandController.validateAdmin = function (req, res, next) {
   if (req.session?.member?.mb_type === "ADMIN") {
     req.member = req.session.member;
     next();
   } else {
     const html = `<script>alert("Admin page: Permission denied");
-  window.location.replace("/resto")</script>`;
+  window.location.replace("/shoes")</script>`;
     res.end(html);
   }
 };

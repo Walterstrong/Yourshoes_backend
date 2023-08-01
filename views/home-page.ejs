@@ -3,36 +3,36 @@
   <div class="group_name">
     <ul class="nav justify-content-center">
       <li class="nav-item" style="cursor: pointer">
-        <a class="nav-link active" href="/resto">Home</a>
+        <a class="nav-link active" href="/shoes">Home</a>
       </li>
       <% if (!member){%>
       <li class="nav-item" style="cursor: pointer">
-        <a class="nav-link active" href="/resto/sign-up">Signup</a>
+        <a class="nav-link active" href="/shoes/sign-up">Signup</a>
       </li>
       <li class="nav-item" style="cursor: pointer">
-        <a class="nav-link active" href="/resto/login">Login</a>
+        <a class="nav-link active" href="/shoes/login">Login</a>
       </li>
       <%} else if (member.mb_type==="ADMIN"){%>
       <li class="nav-item" style="cursor: pointer">
-        <a class="nav-link active" href="/resto/all-restaurants">AllBrands</a>
+        <a class="nav-link active" href="/shoes/all_shoes_brands">AllBrands</a>
       </li>
       <li
         class="nav-item"
         style="cursor: pointer"
         onclick="return confirm('Do you want to logout?')"
       >
-        <a class="nav-link active" href="/resto/logout">Logout</a>
+        <a class="nav-link active" href="/shoes/logout">Logout</a>
       </li>
       <% } else { %>
       <li class="nav-item" style="cursor: pointer">
-        <a class="nav-link active" href="/resto/products/menu">MyBrand</a>
+        <a class="nav-link active" href="/shoes/products/menu">MyBrand</a>
       </li>
       <li
         class="nav-item"
         style="cursor: pointer"
         onclick="return confirm('Do you want to logout?')"
       >
-        <a class="nav-link active" href="/resto/logout">Logout</a>
+        <a class="nav-link active" href="/shoes/logout">Logout</a>
       </li>
       <%}%>
     </ul>

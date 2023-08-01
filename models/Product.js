@@ -34,10 +34,8 @@ class Product {
         };
       }
 
-      if (data.restaurant_mb_id !== "all") {
-        match["restaurant_mb_id"] = shapeIntoMongooseObjectId(
-          data.restaurant_mb_id
-        );
+      if (data.brand_mb_id !== "all") {
+        match["brand_mb_id"] = shapeIntoMongooseObjectId(data.brand_mb_id);
       }
 
       if (data.product_name !== "all") {
@@ -455,11 +453,11 @@ class Product {
    *                             *
    ******************************/
 
-  async getMyProductsDataResto(member) {
+  async getMyProductsDatashoes(member) {
     try {
       member._id = shapeIntoMongooseObjectId(member._id);
       const result = await this.productModel.find({
-        restaurant_mb_id: member._id,
+        brand_mb_id: member._id,
       });
       assert.ok(result, Definer.general_err1);
 
@@ -471,7 +469,7 @@ class Product {
 
   async addNewProduct(data, member) {
     try {
-      data.restaurant_mb_id = shapeIntoMongooseObjectId(member._id);
+      data.brand_mb_id = shapeIntoMongooseObjectId(member._id);
 
       const new_product = new this.productModel(data);
       const result = await new_product.save();

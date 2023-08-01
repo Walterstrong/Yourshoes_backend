@@ -1,19 +1,19 @@
 const MemberModel = require("../schema/member.model");
 const Definer = require("../lib/ mistake");
 const assert = require("assert");
-const Member = require("../models/Member");
+const Member = require("./Member");
 const {
   shapeIntoMongooseObjectId,
   look_up_member_liked,
   look_up_member_viewed,
 } = require("../lib/config");
 
-class Restaurant {
+class Brand {
   constructor() {
     this.memberModel = MemberModel;
   }
 
-  async getRestaurantsData(member, data) {
+  async getBrandsData(member, data) {
     try {
       const auth_mb_id = shapeIntoMongooseObjectId(member?._id);
       // console.log("auth_mb_id", auth_mb_id);
@@ -55,7 +55,7 @@ class Restaurant {
       throw err;
     }
   }
-  async getChosenRestaurantData(member, id) {
+  async getChosenBrandData(member, id) {
     try {
       id = shapeIntoMongooseObjectId(id);
 
@@ -83,7 +83,7 @@ class Restaurant {
    *                             *
    ******************************/
 
-  async getAllRestaurantsData() {
+  async getAllBrandsData() {
     try {
       const result = await this.memberModel
         .find({
@@ -98,7 +98,7 @@ class Restaurant {
     }
   }
 
-  async updateRestaurantByAdminData(update_data) {
+  async updateBrandByAdminData(update_data) {
     try {
       const id = shapeIntoMongooseObjectId(update_data?.id);
       const result = await this.memberModel
@@ -117,4 +117,4 @@ class Restaurant {
   }
 }
 
-module.exports = Restaurant;
+module.exports = Brand;

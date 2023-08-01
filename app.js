@@ -7,6 +7,7 @@ const http = require("http");
 //const passport = require("passport");
 const geoip = require("geoip-lite");
 const cors = require("cors");
+const MongoClient = require("mongodb").MongoClient;
 
 let session = require("express-session");
 const MongoDBStore = require("connect-mongodb-session")(session);
@@ -52,7 +53,7 @@ app.set("view engine", "ejs");
 
 //4: Routing code
 app.use("/", router);
-app.use("/resto", router__bssr);
+app.use("/shoes", router__bssr);
 module.exports = app;
 
 const server = http.createServer(app);

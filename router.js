@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const memberController = require("./controllers/memberController");
 const productController = require("./controllers/productController");
-const restaurantController = require("./controllers/restaurantController ");
+const brandController = require("./controllers/brandController ");
 const orderController = require("./controllers/orderController.js");
 const communityController = require("./controllers/communityController.js");
 const commentController = require("./controllers/commentController.js");
@@ -54,20 +54,20 @@ router.get(
 
 router.post(
   "/products/edit_discount/:id",
-  // restaurantController.validateAuthRestaurant,
+  // brandController.validateAuthBrand,
   productController.updateChosenProductDiscount
 );
-// Restaurant related routers
+// Brand related routers
 router.get(
-  "/restaurants",
+  "/brands",
   memberController.retrieveAuthMember,
-  restaurantController.getRestaurants
+  brandController.getBrands
 );
 
 router.get(
-  "/restaurants/:id",
+  "/brands/:id",
   memberController.retrieveAuthMember,
-  restaurantController.getChosenRestaurant
+  brandController.getChosenBrand
 );
 
 // Order related routers

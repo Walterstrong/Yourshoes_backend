@@ -9,18 +9,18 @@
     <div class="group_name">
       <ul class="nav justify-content-center">
         <li class="nav-item" style="cursor: pointer">
-          <a class="nav-link active" href="/resto">Home</a>
+          <a class="nav-link active" href="/shoes">Home</a>
         </li>
         <li class="nav-item" style="cursor: pointer">
-          <a class="nav-link" href="/resto/products/menu">MyBrand</a>
+          <a class="nav-link" href="/shoes/products/menu">MyBrand</a>
         </li>
         <li class="nav-item" style="cursor: pointer">
-          <a class="nav-link" href="/resto/logout">Logout</a>
+          <a class="nav-link" href="/shoes/logout">Logout</a>
         </li>
       </ul>
     </div>
-    <div class="restaurant_menu_frame">
-      <div class="restaurant_container">
+    <div class="brand_menu_frame">
+      <div class="brand_container">
         <div class="dishs_table">
           <span class="new_dish_txt">
             <%= member.mb_nick%> Products 
@@ -42,7 +42,7 @@
               <th scope="col">Discount endDate</th>
             </thead>
 
-            <% restaurant_data.map((value, key)=> { %>
+            <% brand_data.map((value, key)=> { %>
             <tbody style="background: white; font-size: 12px; text-justify: auto; text-align: center;">
               <td><%= key + 1 %></td>
               <td><%= value.product_name %></td>
@@ -87,7 +87,7 @@
         </div>
         <form
           onsubmit="return validateForm()"
-          action="/resto/products/create"
+          action="/shoes/products/create"
           method="POST"
           class="dish_container"
           enctype="multipart/form-data"
@@ -279,8 +279,8 @@
               </div>
               <!-- <input
                 value="<%= member._id%>"
-                name="restaurant_id"
-                class="restaurant_id"
+                name="brand_id"
+                class="brand_id"
               /> -->
             </div>
           </div>
@@ -320,7 +320,7 @@
       const product_status = $(`#${id}.new_product_status`).val();
 
       try {
-        const response = await axios.post(`/resto/products/edit/${id}`, {
+        const response = await axios.post(`/shoes/products/edit/${id}`, {
           id: id,
           product_status: product_status,
         });
@@ -343,7 +343,7 @@
       const discount_type = $(`#${id}.discount_type`).val();
 
       try {
-        const response = await axios.post(`/resto/products/edit/${id}`, {
+        const response = await axios.post(`/shoes/products/edit/${id}`, {
           id: id,
           "discount.type": discount_type,
         });
@@ -366,7 +366,7 @@
       const discount_value = $(`#${id}.discount_value`).val();
 
       try {
-        const response = await axios.post(`/resto/products/edit/${id}`, {
+        const response = await axios.post(`/shoes/products/edit/${id}`, {
           id: id,
           "discount.value": discount_value,
         });
@@ -389,7 +389,7 @@
       const discount_startDate = $(`#${id}.discount_startDate`).val();
 
       try {
-        const response = await axios.post(`/resto/products/edit/${id}`, {
+        const response = await axios.post(`/shoes/products/edit/${id}`, {
           id: id,
           "discount.startDate": discount_startDate,
         });
@@ -413,7 +413,7 @@
       const discount_endDate = $(`#${id}.discount_endDate`).val();
 
       try {
-        const response = await axios.post(`/resto/products/edit/${id}`, {
+        const response = await axios.post(`/shoes/products/edit/${id}`, {
           id: id,
           "discount.endDate": discount_endDate,
         });
@@ -432,7 +432,7 @@
     });
 
     function validateForm() {
-      const restaurant_mb_id = $(".restaurant_mb_id").val();
+      const brand_mb_id = $(".brand_mb_id").val();
       const product_name = $(".product_name").val();
       const product_price = $(".product_price").val();
       const product_left_cnt = $(".product_left_cnt").val();
@@ -441,7 +441,7 @@
       const product_status = $(".product_status").val();
 
       if (
-        restaurant_mb_id == "" ||
+        brand_mb_id == "" ||
         product_name == "" ||
         product_description == "" ||
         product_status == "" ||

@@ -3,7 +3,7 @@
 <body>
   <form
     onsubmit="return validateSignUpForm()"
-    action="/resto/sign-up"
+    action="/shoes/sign-up"
     class="login_container"
     method="POST"
     enctype="multipart/form-data"
@@ -12,11 +12,11 @@
       <div class="login_top">
         <span>Sign up</span>
         <div>
-          Back to Home Page <a href="/resto" style="color: #6440fb">Home</a>
+          Back to Home Page <a href="/shoes" style="color: #6440fb">Home</a>
         </div>
         <p>
           Already signed up?
-          <a href="/resto/login" style="color: #6440fb">Login</a>
+          <a href="/shoes/login" style="color: #6440fb">Login</a>
         </p>
       </div>
       <div class="sign_input_frame">
@@ -79,9 +79,9 @@
                 type="file"
                 value=""
                 required
-                name="restaurant_img"
+                name="brand_img"
                 id="input_file"
-                class="upload-hidden form-control-file restaurant_img"
+                class="upload-hidden form-control-file brand_img"
               />
             </div>
             <p class="thumbnail_desc">
@@ -128,7 +128,7 @@
       const mb_phone = $(".mb_phone").val();
       const mb_password = $(".mb_password").val();
       const mb_confirm_password = $(".mb_confirm_password").val();
-      const retaurant_img = $(".restaurant_img").get(0).files[0] ?? null;
+      const retaurant_img = $(".brand_img").get(0).files[0] ?? null;
 
       if (
         mb_nick == "" ||
@@ -143,7 +143,7 @@
         return false;
       }
 
-      if (!restaurant_img) {
+      if (!brand_img) {
         alert("Please upload a new image");
         return false;
       }

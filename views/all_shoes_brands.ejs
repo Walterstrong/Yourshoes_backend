@@ -5,19 +5,19 @@
     <div class="group_name">
       <ul class="nav justify-content-center" style="justify-content: center">
         <li class="nav-item" style="cursor: pointer">
-          <a class="nav-link active" href="/resto">Home</a>
+          <a class="nav-link active" href="/shoes">Home</a>
         </li>
         <li class="nav-item" style="cursor: pointer">
-          <a class="nav-link" href="/resto/all-restaurants">AllBrands</a>
+          <a class="nav-link" href="/shoes/all_shoes_brands">AllBrands</a>
         </li>
         <li class="nav-item" style="cursor: pointer">
-          <a class="nav-link" href="/resto/logout">Logout</a>
+          <a class="nav-link" href="/shoes/logout">Logout</a>
         </li>
       </ul>
     </div>
-    <div class="restaurant_menu_frame">
-      <div class="restaurant_container">
-        <div class="resto_table">
+    <div class="brand_menu_frame">
+      <div class="brand_container">
+        <div class="shoes_table">
           <span class="new_dish_txt">All brands lists</span>
 
           <table class="table table-striped" style="border-radius: 15px;">
@@ -30,7 +30,7 @@
                 <th scope="col">Brand status</th>
               </tr>
             </thead>
-            <% restaurants_data.map(function(value, key) {%>
+            <% brands_data.map(function(value, key) {%>
             <tbody style="background: white">
               <td><%= key + 1 %></td>
               <td><%= value.mb_nick %></td>
@@ -59,20 +59,20 @@
   <script>
     $(function () {
 
-      //manipulate restaurants top features
+      //manipulate brands top features
       $(".mb_top").on("change", function (e) {
         const id = e.target.id;
         const mb_top = e.target.checked ? "Y" : "N";
 
           axios
-          .post("/resto/all-restaurants/edit", { id: id, mb_top: mb_top })
+          .post("/shoes/all_shoes_brands/edit", { id: id, mb_top: mb_top })
           .then((response) => {
             const result = response.data;
             if (result.state === "success") alert("successfully updated");
             else alert(result.message);
           });
       });
- //manipulate restaurants status features
+ //manipulate brands status features
  $(".mb_status").on("change", function (e) {
         const id = e.target.id;
         const mb_status = $(`#${id}.mb_status`).val()
@@ -80,7 +80,7 @@
         const mb_top = e.target.checked ? "Y" : "N";
 
         axios
-          .post("/resto/all-restaurants/edit", { id: id, mb_status: mb_status })
+          .post("/shoes/all_shoes_brands/edit", { id: id, mb_status: mb_status })
           .then((response) => {
             const result = response.data;
             if (result.state === "success") alert("successfully updated");
