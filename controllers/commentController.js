@@ -25,7 +25,7 @@ commentController.createComment = async (req, res) => {
         console.error("Error sending message via Telegram bot:", err)
       );
     const comment = new Comment();
-
+    console.log("req.body", req.body);
     const result = await comment.createCommentData(req.member, req.body);
     assert.ok(result, Definer.general_err1);
     res.json({ state: "success", data: result });

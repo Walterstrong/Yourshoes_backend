@@ -97,7 +97,12 @@ class Community {
               as: "member_data",
             },
           },
-          { $unwind: "$member_data" },
+          {
+            $unwind: {
+              path: "$member_data",
+              preserveNullAndEmptyArrays: true,
+            },
+          },
           look_up_member_liked(auth_mb_id),
           look_up_member_viewed(auth_mb_id),
         ])

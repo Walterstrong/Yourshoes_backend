@@ -123,6 +123,7 @@ brandController.getLoginMyBrand = async function (req, res) {
 brandController.loginProcess = async function (req, res) {
   try {
     console.log("POST:cont/loginProcess");
+    console.log("GET:cont/loginProcess", req.body);
     const data = req.body;
     const member = new Member();
     const result = await member.loginData(data);
@@ -174,7 +175,9 @@ brandController.getMyBrandProducts = async function (req, res) {
   try {
     console.log("GET: cont/getMyBrandData");
     const product = new Product();
+    console.log("res.locals.member: ", res.locals.member);
     const data = await product.getMyProductsDatashoes(res.locals.member);
+    console.log("getMyBrandData", data);
     res.render("brands-menu", { brand_data: data });
   } catch (err) {
     console.log(`ERROR, cont/getMyBrandData, ${err.message}`);

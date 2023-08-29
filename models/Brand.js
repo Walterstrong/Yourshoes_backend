@@ -71,6 +71,7 @@ class Brand {
         })
         .exec();
       assert(result, Definer.general_err2);
+      console.log("result:", result);
       return result;
     } catch (err) {
       throw err;

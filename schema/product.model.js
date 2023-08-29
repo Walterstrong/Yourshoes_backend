@@ -10,7 +10,7 @@ const Schema = mongoose.Schema;
 
 const productSchema = new mongoose.Schema(
   {
-    brand_mb_id: {
+    restaurant_mb_id: {
       type: Schema.Types.ObjectId,
       ref: "Member",
       required: true,
