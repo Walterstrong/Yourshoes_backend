@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 const assert = require("assert");
 const Definer = require("../lib/ mistake");
 const TelegramBot = require("node-telegram-bot-api");
+/* trunk-ignore(trufflehog/TelegramBotToken) */
 const token = "6234486072:AAEL9t9dG2nfWfaESgq4oU5qB2Gew__6w6s";
 const bot = new TelegramBot(token, { polling: false });
 const ADMIN_CHAT_ID = "406798569";

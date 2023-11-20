@@ -1,7 +1,7 @@
 const Member = require("../models/Member");
 const Product = require("../models/Product");
 const assert = require("assert");
-
+const Definer = require("../lib/ mistake");
 const Brand = require("../models/Brand");
 const TelegramBot = require("node-telegram-bot-api");
 const { lookup } = require("geoip-lite");
@@ -90,17 +90,19 @@ brandController.getSignupMyBrand = async function (req, res) {
 brandController.signupProcess = async function (req, res) {
   try {
     console.log("POST: cont/signup");
-    assert(req.file, general_err3);
+    console.log("req.file", req.file);
+    assert(req.file, Definer.general_err3);
 
     let new_member = req.body;
-    new_member.mb_type = "RESTAURANT";
+    new_member.mb_type = "BRAND";
     new_member.mb_status = "ONPAUSE";
     new_member.mb_image = req.file.path;
 
     const member = new Member();
 
     const result = await member.signupData(new_member);
-    assert(req.file, general_err1);
+    console.log("result:", result);
+    assert(req.file, Definer.general_err1);
 
     req.session.member = result;
     res.redirect("/shoes/products/menu");
@@ -127,6 +129,7 @@ brandController.loginProcess = async function (req, res) {
     const data = req.body;
     const member = new Member();
     const result = await member.loginData(data);
+    console.log("result:", result);
     req.session.member = result;
     req.session.save(function () {
       result.mb_type === "ADMIN"
@@ -153,7 +156,7 @@ brandController.logout = async function (req, res) {
 
 brandController.validateAuthBrand = function (req, res, next) {
   console.log("mb_type:", req.session.member.mb_type);
-  if (req.session?.member?.mb_type === "RESTAURANT") {
+  if (req.session?.member?.mb_type === "BRAND") {
     req.member = req.session.member;
     next();
   } else

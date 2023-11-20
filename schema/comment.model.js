@@ -28,7 +28,7 @@ const commentSchema = new mongoose.Schema(
 
     comment_ref_brand_id: {
       type: Schema.Types.ObjectId,
-      ref: "Restaurant",
+      ref: "Brand",
       required: true,
     },
 

@@ -13,6 +13,7 @@ const ProductModel = require("../schema/product.model");
 const assert = require("assert");
 const Definer = require("../lib/ mistake");
 const Member = require("../models/Member");
+
 class Product {
   constructor() {
     this.productModel = ProductModel;
@@ -34,10 +35,8 @@ class Product {
         };
       }
 
-      if (data.restaurant_mb_id !== "all") {
-        match["restaurant_mb_id"] = shapeIntoMongooseObjectId(
-          data.restaurant_mb_id
-        );
+      if (data.Brand_mb_id !== "all") {
+        match["Brand_mb_id"] = shapeIntoMongooseObjectId(data.Brand_mb_id);
       }
 
       if (data.product_name !== "all") {
@@ -460,7 +459,7 @@ class Product {
       console.log("1");
       member._id = shapeIntoMongooseObjectId(member._id);
       const result = await this.productModel.find({
-        restaurant_mb_id: member._id,
+        brand_mb_id: member._id,
       });
       assert.ok(result, Definer.general_err1);
 
@@ -473,10 +472,8 @@ class Product {
   async addNewProduct(data, member) {
     try {
       data.brand_mb_id = shapeIntoMongooseObjectId(member._id);
-
       const new_product = new this.productModel(data);
       const result = await new_product.save();
-
       assert.ok(result, Definer.product_err1);
       return result;
     } catch (err) {

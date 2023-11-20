@@ -6,7 +6,7 @@ const connectionString = process.env.MONGO_URL;
 // Connect to MongoDB using async/await
 async function connectDB() {
   try {
-    await mongoose.connect(connectionString, {
+    mongoose.connect(connectionString, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });

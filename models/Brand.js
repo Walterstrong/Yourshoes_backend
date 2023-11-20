@@ -17,7 +17,7 @@ class Brand {
     try {
       const auth_mb_id = shapeIntoMongooseObjectId(member?._id);
       // console.log("auth_mb_id", auth_mb_id);
-      let match = { mb_type: "RESTAURANT", mb_status: "ACTIVE" };
+      let match = { mb_type: "Brand", mb_status: "ACTIVE" };
       let aggregationQuery = [];
       data.limit = data["limit"] * 1; //stringdan songa o'tkazilayabdi
       data.page = data["page"] * 1;
@@ -88,7 +88,7 @@ class Brand {
     try {
       const result = await this.memberModel
         .find({
-          mb_type: "RESTAURANT",
+          mb_type: "Brand",
         })
         .exec();
 

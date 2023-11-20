@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9ff74980-6908-42c3-8b80-df351f6e9de5" name="Changes" comment="member controlled created">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/papay.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/papay.iml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,6 +23,9 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 7
+}]]></component>
   <component name="ProjectId" id="2F2GxAUDqMNYAKRWoVFdbpBgyFV" />
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
@@ -61,6 +64,7 @@
       <workItem from="1665927472918" duration="867000" />
       <workItem from="1665928497173" duration="709000" />
       <workItem from="1665929417137" duration="329000" />
+      <workItem from="1695129821978" duration="268000" />
     </task>
     <task id="LOCAL-00001" summary="installed Php storm">
       <created>1663683844348</created>
