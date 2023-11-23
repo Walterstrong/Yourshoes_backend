@@ -58,7 +58,7 @@ class Order {
         return await this.saveOrderItemData(item, order_id);
       });
       const results = await Promise.all(pro_list);
-      // console.log("results:::", results);
+
       return true;
     } catch (err) {
       console.log(err);
@@ -101,19 +101,6 @@ class Order {
               as: "order_items",
             },
           },
-          // {
-          //   $unwind: "$order_items",
-          // },
-          // {
-          //   $group: {
-          //     _id: {
-          //       order_id: "$order_items.order_id",
-          //     },
-          //     avgRating: {
-          //       $avg: "$order_items.item_price",
-          //     },
-          //   },
-          // },
           {
             $lookup: {
               from: "products",
