@@ -35,8 +35,8 @@ class Product {
         };
       }
 
-      if (data.Brand_mb_id !== "all") {
-        match["Brand_mb_id"] = shapeIntoMongooseObjectId(data.Brand_mb_id);
+      if (data.brand_mb_id !== "all") {
+        match["brand_mb_id"] = shapeIntoMongooseObjectId(data.brand_mb_id);
       }
 
       if (data.product_name !== "all") {
@@ -91,6 +91,26 @@ class Product {
 
       const pipeline = [
         { $match: match },
+        {
+          $lookup: {
+            from: "members", // Adjust to your members collection name
+            localField: "brand_mb_id", // Field in products collection that references member ID
+            foreignField: "_id", // Member ID field in members collection
+            as: "memberData",
+          },
+        },
+        {
+          $unwind: {
+            path: "$memberData",
+            preserveNullAndEmptyArrays: true,
+          },
+        },
+        {
+          $match: {
+            "memberData.mb_status": "ACTIVE",
+          },
+        },
+
         {
           $addFields: {
             discountedPrice: {
