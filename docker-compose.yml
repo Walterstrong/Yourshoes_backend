@@ -4,7 +4,7 @@ services:
   node:
     container_name: yourshoes_backend
     restart: always
-    image: node:16.10.0
+    image: node:16.20.1
     ports:
       - "3003:3003"
     volumes:
