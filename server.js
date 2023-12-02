@@ -14,11 +14,11 @@ async function connectDB() {
 
     // Start the server after successful connection
     const server = require("./app.js");
-    const PORT = process.env.PORT || 3003;
-    server.listen(PORT, () => {
-      console.log(
-        `The Server is running successfully on port ${PORT}, http://localhost:${PORT}`
-      );
+    const host = "0.0.0.0"; // Add this line
+    const port = process.env.PORT || 3003; // Assuming your port is 3003
+
+    server.listen(port, host, () => {
+      console.log(`Server running at http://${host}:${port}/`);
     });
   } catch (err) {
     console.error("ERROR on connection MongoDB:", err.message);
