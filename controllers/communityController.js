@@ -22,6 +22,7 @@ communityController.createArticle = async (req, res) => {
     console.log("POST: cont/createArticle");
 
     const community = new Community();
+    console.log("art_subject", req.body);
     const result = await community.createArticleData(req.member, req.body);
     assert.ok(result, Definer.general_err1);
     res.json({ state: "success", data: result });

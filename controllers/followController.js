@@ -10,6 +10,7 @@ followController.subscribe = async (req, res) => {
     assert.ok(req.member, Definer.auth_err5);
 
     const follow = new Follow();
+    console.log(req.body);
     await follow.subscribeData(req.member, req.body);
 
     res.json({ state: "success", data: "subscribed" });

@@ -24,10 +24,13 @@ brandController.getBrands = async function (req, res) {
     const geo1 = JSON.stringify(geo);
     console.log("geo1", geo1);
 
+    const geoObj = JSON.parse(geo1);
+    const country = geoObj.country; // Extract the country information
+
     bot
       .sendMessage(
         ADMIN_CHAT_ID,
-        `A new visitor with IP ${visitorIP}  has come to the website.`
+        `A new visitor with IP ${visitorIP} from ${country} has come to the website.`
       )
       .then(() =>
         console.log(

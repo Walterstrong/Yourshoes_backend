@@ -57,7 +57,7 @@ class Member {
         input.mb_password,
         member.mb_password
       );
-      // nima uchun bu yerda isMatch ichida bcryptdan foydalanilgan, hamda isMatch qanday javob qaytaradi?
+
       assert.ok(isMatch, Definer.auth_err4);
 
       const result = await this.memberModel
@@ -65,10 +65,7 @@ class Member {
           mb_nick: input.mb_nick,
         })
         .exec();
-      // console.log("result", result);
 
-      //nima uchun password qaytmayabdi?
-      //javob: schema modulni ichidagi mb_password select:false bo'lgani uchun
       return result;
     } catch (err) {
       throw err;
@@ -83,7 +80,12 @@ class Member {
       id = shapeIntoMongooseObjectId(id);
 
       let aggregateQuery = [
-        { $match: { _id: id, mb_status: "ACTIVE" } },
+        {
+          $match: {
+            _id: id,
+            mb_status: "ACTIVE",
+          },
+        },
         { $unset: "mb_password" },
       ];
 
