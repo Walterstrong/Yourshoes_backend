@@ -48,10 +48,22 @@
               <td><%= value.product_name %></td>
               <td><%= value.product_size %></td>
               <td><%= value.product_color %></td>
-              <td><%= value.product_price %></td>
-              <td><%= value.product_type %></tde=>
+              <!-- <td><%= value.product_price %></td> -->
+              <td>
+                <input class="spec_select product_price" id="<%= value._id %>" value="<%= value.product_price %>" type="number" style="width: 60px;"/>
+              </td>
+              <!-- <td><%= value.product_type %></td> -->
+              <td>
+                <select class="spec_select new_product_type" id="<%= value._id %>">
+                  <option value="men" <%= value.product_type === 'men' ? 'selected' : '' %>> men</option>
+                  <option value="women" <%= value.product_type ==='women' ? 'selected' : '' %>> women</option>
+                </select>
+              </td>
               <td><%= value.product_collection %></td>
-              <td><%= value.product_left_cnt %></td>
+              <!-- <td><%= value.product_left_cnt %></td> -->
+              <td>
+                <input class="spec_select product_left_cnt" id="<%= value._id %>" value="<%= value.product_left_cnt %>" type="number" style="width: 60px;"/>
+              </td>
               <td>
                 <select class="spec_select new_product_status" id="<%= value._id %>">
                   <option value="PROCESS" <%= value.product_status === 'PROCESS' ? 'selected' : '' %>> Process</option>
@@ -65,7 +77,7 @@
                 </select>
               </td> 
               <td>
-                <input class="spec_select discount_value" id="<%= value._id %>" placeholder="<%= value.discount.value %>" type="number" style="width: 60px;"/>
+                <input class="spec_select discount_value" id="<%= value._id %>" value="<%= value.discount.value %>" type="number" style="width: 60px;"/>
               </td>
               <td>
                 <input class="spec_select discount_startDate" id="<%= value._id %>" value="<%= value.discount.startDate ? value.discount.startDate.toISOString().split('T')[0] : '' %>" type="date" style="width: 120px;" />
@@ -338,6 +350,32 @@
       }
     });
 
+
+
+      // product type changer
+      $(".new_product_type").on("change", async function (e) {
+      const id = e.target.id;
+      const product_type = $(`#${id}.new_product_type`).val();
+
+      try {
+        const response = await axios.post(`/shoes/products/edit/${id}`, {
+          id: id,
+          product_type: product_type,
+        });
+        const result = response.data;
+        console.log("result:", result);
+
+        if (result.state == "success") {
+          alert("success");
+          location.reload();
+        } else {
+          alert(result.message);
+        }
+      } catch (err) {
+        console.log("updateChosenProduct err:", err);
+      }
+    });
+
     $(".discount_type").on("change", async function (e) {
       const id = e.target.id;
       const discount_type = $(`#${id}.discount_type`).val();
@@ -346,6 +384,29 @@
         const response = await axios.post(`/shoes/products/edit/${id}`, {
           id: id,
           "discount.type": discount_type,
+        });
+        const result = response.data;
+        console.log("result:", result);
+
+        if (result.state == "success") {
+          alert("success");
+          location.reload();
+        } else {
+          alert(result.message);
+        }
+      } catch (err) {
+        console.log("updateChosenProduct err:", err);
+      }
+    });
+
+    $(".product_price").on("change", async function (e) {
+      const id = e.target.id;
+      const product_price = $(`#${id}.product_price`).val();
+
+      try {
+        const response = await axios.post(`/shoes/products/edit/${id}`, {
+          id: id,
+          "product_price": product_price,
         });
         const result = response.data;
         console.log("result:", result);
@@ -383,6 +444,30 @@
         console.log("updateChosenProduct err:", err);
       }
     });
+
+    $(".product_left_cnt").on("change", async function (e) {
+      const id = e.target.id;
+      const product_left_cnt = $(`#${id}.product_left_cnt`).val();
+
+      try {
+        const response = await axios.post(`/shoes/products/edit/${id}`, {
+          id: id,
+          "product_left_cnt": product_left_cnt,
+        });
+        const result = response.data;
+        console.log("result:", result);
+
+        if (result.state == "success") {
+          alert("success");
+          location.reload();
+        } else {
+          alert(result.message);
+        }
+      } catch (err) {
+        console.log("updateChosenProduct err:", err);
+      }
+    });
+
 
     $(".discount_startDate").on("change", async function (e) {
       const id = e.target.id;

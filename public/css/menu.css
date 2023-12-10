@@ -1,9 +1,11 @@
 .main_container {
   position: relative;
   width: 100%;
-  height: 100%;
+  /* height: 100%; */
   display: flex;
   flex-direction: column;
+  height: auto;
+  min-height: 900px;
   background: rgb(84, 92, 97);
   background: radial-gradient(
     circle,
@@ -12,12 +14,13 @@
   );
   align-items: center;
 }
+
 .brand_menu_frame {
   position: relative;
   padding-bottom: 80px;
   width: 100%;
   height: auto;
-
+  /* min-height: 900px; */
   display: flex;
   flex-direction: column;
   align-items: center;

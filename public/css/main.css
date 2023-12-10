@@ -9,7 +9,12 @@ body {
   height: 100%;
   display: flex;
   flex-direction: column;
-  background: #251942f5;
+  background: rgb(84, 92, 97);
+  background: radial-gradient(
+    circle,
+    rgba(84, 92, 97, 1) 0%,
+    rgba(23, 41, 48, 1) 100%
+  );
   align-items: center;
 }
 
