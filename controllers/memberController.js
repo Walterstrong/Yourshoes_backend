@@ -3,14 +3,11 @@ const jwt = require("jsonwebtoken");
 const assert = require("assert");
 const Definer = require("../lib/ mistake");
 const TelegramBot = require("node-telegram-bot-api");
-/* trunk-ignore(trufflehog/TelegramBotToken) */
 const token = "6234486072:AAEL9t9dG2nfWfaESgq4oU5qB2Gew__6w6s";
 const bot = new TelegramBot(token, { polling: false });
 const ADMIN_CHAT_ID = "406798569";
 
 let memberController = module.exports;
-
-//
 
 memberController.signup = async (req, res) => {
   try {
@@ -19,13 +16,21 @@ memberController.signup = async (req, res) => {
 
     const member = new Member();
     const new_member = await member.signupData(data);
-
     const token = memberController.createToken(new_member);
 
     res.cookie("access_token", token, {
       maxAge: 6 * 3600 * 1000,
       httpOnly: false,
     });
+
+    const guest = new_member.mb_nick;
+    bot
+      .sendMessage(ADMIN_CHAT_ID, `user "${guest}" signedUp now`)
+      .then(() => console.log("user ${guest} signedUp now"))
+      .catch((err) =>
+        console.error("Error sending message via Telegram bot:", err)
+      );
+
     res.json({ state: "success", data: new_member });
   } catch (err) {
     console.log(`ERROR, cont/signup, ${err.message}`);
@@ -52,6 +57,14 @@ memberController.login = async (req, res) => {
       maxAge: 6 * 3600 * 1000,
       httpOnly: false,
     });
+
+    const guest = result.mb_nick;
+    bot
+      .sendMessage(ADMIN_CHAT_ID, `user "${guest}" login now`)
+      .then(() => console.log("user ${guest} login now"))
+      .catch((err) =>
+        console.error("Error sending message via Telegram bot:", err)
+      );
 
     res.json({ state: "success", data: result });
   } catch (err) {
