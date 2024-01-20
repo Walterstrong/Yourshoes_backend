@@ -24,12 +24,10 @@ memberController.signup = async (req, res) => {
     });
 
     const guest = new_member.mb_nick;
-    bot
-      .sendMessage(ADMIN_CHAT_ID, `user "${guest}" signedUp now`)
-      .then(() => console.log("user ${guest} signedUp now"))
-      .catch((err) =>
-        console.error("Error sending message via Telegram bot:", err)
-      );
+    await Promise.all([
+      bot.sendMessage(ADMIN_CHAT_ID, `user "${guest}" login now`),
+      console.log(`user ${guest} login now`),
+    ]);
 
     res.json({ state: "success", data: new_member });
   } catch (err) {
@@ -59,12 +57,10 @@ memberController.login = async (req, res) => {
     });
 
     const guest = result.mb_nick;
-    bot
-      .sendMessage(ADMIN_CHAT_ID, `user "${guest}" login now`)
-      .then(() => console.log("user ${guest} login now"))
-      .catch((err) =>
-        console.error("Error sending message via Telegram bot:", err)
-      );
+    await Promise.all([
+      bot.sendMessage(ADMIN_CHAT_ID, `user "${guest}" login now`),
+      console.log(`user ${guest} login now`),
+    ]);
 
     res.json({ state: "success", data: result });
   } catch (err) {

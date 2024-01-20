@@ -42,7 +42,6 @@ brandController.getBrands = async function (req, res) {
     const brand = new Brand();
     const result = await brand.getBrandsData(req.member, data);
     res.json({ state: "success", data: result });
-    // console.log("result:", result);
   } catch (err) {
     console.log(`ERROR, cont/getBrands, ${err.message}`);
   }
